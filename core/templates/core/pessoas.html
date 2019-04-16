@@ -41,6 +41,8 @@
                         <td>
                           <a href="{% url 'core:core_pessoas_edit' pessoa.pk %}">
                             <i class="fa fa-edit"></i>
+                          <a href="{% url 'core:core_pessoas_delete' pessoa.pk %}">
+                            <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
                           </a>
                         </td>
                         </tr>
