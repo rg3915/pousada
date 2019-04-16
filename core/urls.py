@@ -11,7 +11,7 @@ urlpatterns = [
     path('pesso/', pesso_view, name='core_pessoas'),
     path('pesso/add/', pesso_add, name='core_pessoas_add'),
     path('pesso/<int:pk>/', pesso_detail, name='core_pessoas_detail'),
-    # path('pesso/<int:pk>/<int:cmd>/', pesso_view, name='core_pessoas'),
+    path('pesso/<int:pk>/editar/', pesso_edit, name='core_pessoas_edit'),
 
     # url quart onde lista todas quartos cadastradas
     # quart +id + comando mostra determinada quarto cadastrada e determinado

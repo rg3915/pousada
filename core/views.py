@@ -38,6 +38,20 @@ def pesso_detail(request, pk):
     data = {'pessoa': pessoa}
     return render(request, 'core/pessoa_detail.html', data)
 
+
+@login_required
+def pesso_edit(request, pk):
+    pessoa = Pessoa.objects.get(pk=pk)
+    form = PessoaForm(request.POST or None, instance=pessoa)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(resolve_url('core:core_pessoas'))
+    data = {
+        'pessoa': pessoa,
+        'form': form,
+    }
+    return render(request, 'core/pessoa_editar.html', data)
+
     # Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
     # Caso o id e comando estiver 0 o update sera false e entao o form sera null
     # Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
