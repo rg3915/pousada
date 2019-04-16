@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h1>{{ message }}</h1>
+<form action="{% url 'core_movmensalista' id=id cmd=cmd%}" method="POST">
+    {% csrf_token %}
+
+    {{ form }}
+
+    <button type="submit" class="btn btn-primary"> {% if update %} Atualizar {% else %} Cadastrar {% endif %}  </button>
+</form>
+{% if update %} <a href="{% url 'core_movmensalista' id=0 cmd=0 %}">Adicionar novo</a> {% endif %}
+<h1>Lista Movimento Mensalista</h1>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">mensalista</th>
+                    <th scope="col">dt_pgto</th>
+                    <th scope="col">total</th>
+                </tr>
+            </thead>
+            <tbody>
+                  {% for mov in mov_mensal %}
+                        <tr>
+                        <th scope="row">{{mov.id}}</th>
+                        <td>
+                            <li>
+                                <a href="{% url 'core_movmensalista' id=mov.id cmd=1 %}">Update</a> 
+                                <a href="{% url 'core_movmensalista' id=mov.id cmd=2 %}">Delete</a>
+                                {{mov.mensalista}}
+                            </li>    
+                        </td>
+                            <td>{{mov.dt_pgto}}</td>
+                            <td>{{mov.total}}</td>
+                        </tr>
+                    </a>
+                </li>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
