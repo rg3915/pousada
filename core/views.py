@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Pessoa, Quarto, MovRotativo, Mensalista, MovMensalista
 
-#importa todos os itens que estao dentro de forms.py.
-#caso queira que importa apenas especifico Ex1(from .forms import Pessoa)
+# importa todos os itens que estao dentro de forms.py.
+# caso queira que importa apenas especifico Ex1(from .forms import Pessoa)
 from .forms import *
 
 
@@ -12,21 +12,33 @@ def home(request):
     return render(request, 'core/index.html', context)
 
 
-#Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
-#Caso o id e comando estiver 0 o update sera false e entao o form sera null
-#Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
-#E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-#Se o Form estiver valido Pessoa salvo com sucesso
-#Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a pessoa
-#O se instanciar o objeto pessoa pelo primarykey id intancia o objeto pessoaform retornando id e comando pessoa removida 
+@login_required
+def pesso_view(request):
+    pessoas = Pessoa.objects.all()
+    form = PessoaForm()
+    data = {
+        'pessoas': pessoas,
+        'form': form,
+    }
+    return render(request, 'core/pessoas.html', data)
+
+
+# Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
+# Caso o id e comando estiver 0 o update sera false e entao o form sera null
+# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
+# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+# Se o Form estiver valido Pessoa salvo com sucesso
+# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a pessoa
+# O se instanciar o objeto pessoa pelo primarykey id intancia o objeto
+# pessoaform retornando id e comando pessoa removida
 @login_required()
-def pesso_view(request, id=0, cmd=0):
+def pesso_view_old(request, id=0, cmd=0):
     pessoas = Pessoa.objects.all()
     msg = ''
     cmd = int(cmd)
     id = int(id)
 
-    print('******',id,cmd)
+    print('******', id, cmd)
 
     is_update = False
     form = None
@@ -52,16 +64,26 @@ def pesso_view(request, id=0, cmd=0):
         id = 0
         msg = 'Pessoa removido com sucesso'
 
-    data = {'pessoas': pessoas, 'form': form, 'update':  is_update, 'message': msg, 'id':id, 'cmd':cmd}
+    data = {
+        'pessoas': pessoas,
+        'form': form,
+        'update': is_update,
+        'message': msg,
+        'id': id,
+        'cmd': cmd
+    }
     return render(request, 'core/pessoas.html', data)
 
-#Função que faz uma requisição pelo id,comando, pegando o objeto quarto,
-#Caso o id e comando estiver 0 o update sera false e entao o form sera null
-#Caso o comando seja diferente de 0 habilita o update para true buscando o objeto quarto pelo PrimaryKey ID
-#E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-#Se o Form estiver valido quarto salvo com sucesso
-#Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a quarto
-#O se instanciar o objeto quarto pelo primarykey id intancia o objeto quartoform retornando id e comando quarto removida
+# Função que faz uma requisição pelo id,comando, pegando o objeto quarto,
+# Caso o id e comando estiver 0 o update sera false e entao o form sera null
+# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto quarto pelo PrimaryKey ID
+# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+# Se o Form estiver valido quarto salvo com sucesso
+# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a quarto
+# O se instanciar o objeto quarto pelo primarykey id intancia o objeto
+# quartoform retornando id e comando quarto removida
+
+
 @login_required()
 def quart_view(request, id=0, cmd=0):
     quartos = Quarto.objects.all()
@@ -69,7 +91,7 @@ def quart_view(request, id=0, cmd=0):
     cmd = int(cmd)
     id = int(id)
 
-    print('******',id,cmd)
+    print('******', id, cmd)
 
     is_update = False
     form = None
@@ -95,16 +117,19 @@ def quart_view(request, id=0, cmd=0):
         id = 0
         msg = 'Quarto removido com sucesso'
 
-    data = {'quartos': quartos, 'form': form, 'update':  is_update, 'message': msg, 'id':id, 'cmd':cmd}
+    data = {'quartos': quartos, 'form': form,
+            'update':  is_update, 'message': msg, 'id': id, 'cmd': cmd}
     return render(request, 'core/quartos.html', data)
 
-#Função que faz uma requisição pelo id,comando, pegando o objeto MovRotativo,
-#Caso o id e comando estiver 0 o update sera false e entao o form sera null
-#Caso o comando seja diferente de 0 habilita o update para true buscando o objeto MovRotativo pelo PrimaryKey ID
-#E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-#Se o Form estiver valido MovRotativo salvo com sucesso
-#Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a MovRotativo
-#O se instanciar o objeto MovRotativo pelo primarykey id intancia o objeto MovRotativoform retornando id e comando MovRotativo removida
+# Função que faz uma requisição pelo id,comando, pegando o objeto MovRotativo,
+# Caso o id e comando estiver 0 o update sera false e entao o form sera null
+# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto MovRotativo pelo PrimaryKey ID
+# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+# Se o Form estiver valido MovRotativo salvo com sucesso
+# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a MovRotativo
+# O se instanciar o objeto MovRotativo pelo primarykey id intancia o
+# objeto MovRotativoform retornando id e comando MovRotativo removida
+
 
 @login_required()
 def rotati_view(request, id=0, cmd=0):
@@ -113,7 +138,7 @@ def rotati_view(request, id=0, cmd=0):
     cmd = int(cmd)
     id = int(id)
 
-    print('******',id,cmd)
+    print('******', id, cmd)
 
     is_update = False
     form = None
@@ -139,16 +164,19 @@ def rotati_view(request, id=0, cmd=0):
         id = 0
         msg = 'Rotativo removido com sucesso'
 
-    data = {'mov_rot': mov_rot, 'form': form, 'update':  is_update, 'message': msg, 'id':id, 'cmd':cmd}
+    data = {'mov_rot': mov_rot, 'form': form,
+            'update':  is_update, 'message': msg, 'id': id, 'cmd': cmd}
     return render(request, 'core/rotativos.html', data)
 
-#Função que faz uma requisição pelo id,comando, pegando o objeto Mensalista,
-#Caso o id e comando estiver 0 o update sera false e entao o form sera null
-#Caso o comando seja diferente de 0 habilita o update para true buscando o objeto Mensalista pelo PrimaryKey ID
-#E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-#Se o Form estiver valido Mensalista salvo com sucesso
-#Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a Mensalista
-#O se instanciar o objeto Mensalista pelo primarykey id intancia o objeto Mensalistaform retornando id e comando Mensalista removida
+# Função que faz uma requisição pelo id,comando, pegando o objeto Mensalista,
+# Caso o id e comando estiver 0 o update sera false e entao o form sera null
+# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto Mensalista pelo PrimaryKey ID
+# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+# Se o Form estiver valido Mensalista salvo com sucesso
+# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a Mensalista
+# O se instanciar o objeto Mensalista pelo primarykey id intancia o objeto
+# Mensalistaform retornando id e comando Mensalista removida
+
 
 @login_required()
 def mensalista_view(request, id=0, cmd=0):
@@ -157,7 +185,7 @@ def mensalista_view(request, id=0, cmd=0):
     cmd = int(cmd)
     id = int(id)
 
-    print('******',id,cmd)
+    print('******', id, cmd)
 
     is_update = False
     form = None
@@ -183,16 +211,18 @@ def mensalista_view(request, id=0, cmd=0):
         id = 0
         msg = 'Mensalista removido com sucesso'
 
-    data = {'mensalistas': mensalistas, 'form': form, 'update':  is_update, 'message': msg, 'id':id, 'cmd':cmd}
+    data = {'mensalistas': mensalistas, 'form': form,
+            'update':  is_update, 'message': msg, 'id': id, 'cmd': cmd}
     return render(request, 'core/mensalista.html', data)
 
-#Função que faz uma requisição pelo id,comando, pegando o objeto MovMensalista,
-#Caso o id e comando estiver 0 o update sera false e entao o form sera null
-#Caso o comando seja diferente de 0 habilita o update para true buscando o objeto MovMensalista pelo PrimaryKey ID
-#E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-#Se o Form estiver valido MovMensalista salvo com sucesso
-#Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a MovMensalista
-#O se instanciar o objeto MovMensalista pelo primarykey id intancia o objeto MovMensalistaform retornando id e comando MovMensalista removida
+# Função que faz uma requisição pelo id,comando, pegando o objeto MovMensalista,
+# Caso o id e comando estiver 0 o update sera false e entao o form sera null
+# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto MovMensalista pelo PrimaryKey ID
+# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+# Se o Form estiver valido MovMensalista salvo com sucesso
+# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a MovMensalista
+# O se instanciar o objeto MovMensalista pelo primarykey id intancia o
+# objeto MovMensalistaform retornando id e comando MovMensalista removida
 
 
 @login_required()
@@ -202,7 +232,7 @@ def movmensal_view(request, id=0, cmd=0):
     cmd = int(cmd)
     id = int(id)
 
-    print('******',id,cmd)
+    print('******', id, cmd)
 
     is_update = False
     form = None
@@ -228,5 +258,6 @@ def movmensal_view(request, id=0, cmd=0):
         id = 0
         msg = 'Mensalista removido com sucesso'
 
-    data = {'mov_mensal': mov_mensal, 'form': form, 'update':  is_update, 'message': msg, 'id':id, 'cmd':cmd}
+    data = {'mov_mensal': mov_mensal, 'form': form,
+            'update':  is_update, 'message': msg, 'id': id, 'cmd': cmd}
     return render(request, 'core/movmensalista.html', data)
