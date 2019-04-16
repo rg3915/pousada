@@ -14,8 +14,6 @@
 </form>
 <!-- { if update %} <a href="{ url 'core_pessoas' id=0 cmd=0 %}">Adicionar novo</a> { endif %} -->
 
-<a href="{ url 'core_pessoas' id=0 cmd=0 %}">Adicionar novo</a>
-
 <h1>Lista Clientes</h1>
         <table class="table">
             <thead class="thead-dark">
@@ -26,6 +24,7 @@
                     <th scope="col">Cidade</th>
                     <th scope="col">Endereco</th>
                     <th scope="col">Telefone</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,16 +32,17 @@
                         <tr>
                         <th scope="row">{{pessoa.id}}</th>
                         <td>
-                            <li>
-                                <a href="{ url 'core_pessoas' id=pessoa.id cmd=1 %}">Update</a> 
-                                <a href="{ url 'core_pessoas' id=pessoa.id cmd=2 %}">Delete</a>
-                                {{pessoa.nome}}
-                            </li>    
+                          <a href="{% url 'core:core_pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
                         </td>
                         <td>{{pessoa.cpf}}</td>
                         <td>{{pessoa.cidade}}</td>
                         <td>{{pessoa.endereco}}</td>
                         <td>{{pessoa.telefone}}</td>
+                        <td>
+                          <a href="">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                        </td>
                         </tr>
                     </a>
                 </li>

@@ -32,14 +32,20 @@ def pesso_add(request):
     return HttpResponseRedirect(resolve_url('core:core_pessoas'))
 
 
-# Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
-# Caso o id e comando estiver 0 o update sera false e entao o form sera null
-# Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
-# E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
-# Se o Form estiver valido Pessoa salvo com sucesso
-# Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a pessoa
-# O se instanciar o objeto pessoa pelo primarykey id intancia o objeto
-# pessoaform retornando id e comando pessoa removida
+@login_required
+def pesso_detail(request, pk):
+    pessoa = Pessoa.objects.get(pk=pk)
+    data = {'pessoa': pessoa}
+    return render(request, 'core/pessoa_detail.html', data)
+
+    # Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
+    # Caso o id e comando estiver 0 o update sera false e entao o form sera null
+    # Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
+    # E entao o form faz uma requisiçao metodo POST caso seja null ele instacia o form metodo post
+    # Se o Form estiver valido Pessoa salvo com sucesso
+    # Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a pessoa
+    # O se instanciar o objeto pessoa pelo primarykey id intancia o objeto
+    # pessoaform retornando id e comando pessoa removida
 
 
 @login_required()

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h1>Detalhes do Clientes</h1>
+
+<ul>
+  <li>{{ pessoa.nome }}</li>
+  <li>{{ pessoa.cpf }}</li>
+  <li>{{ pessoa.cidade }}</li>
+  <li>{{ pessoa.endereco }}</li>
+  <li>{{ pessoa.telefone }}</li>
+</ul>
+
+{% endblock %}
