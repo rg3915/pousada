@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, resolve_url
 from .models import Pessoa, Quarto, MovRotativo, Mensalista, MovMensalista
 
 # importa todos os itens que estao dentro de forms.py.
@@ -23,6 +24,14 @@ def pesso_view(request):
     return render(request, 'core/pessoas.html', data)
 
 
+@login_required
+def pesso_add(request):
+    form = PessoaForm(request.POST)
+    if form.is_valid():
+        form.save()
+    return HttpResponseRedirect(resolve_url('core:core_pessoas'))
+
+
 # Função que faz uma requisição pelo id,comando, pegando o objeto pessoa,
 # Caso o id e comando estiver 0 o update sera false e entao o form sera null
 # Caso o comando seja diferente de 0 habilita o update para true buscando o objeto pessoa pelo PrimaryKey ID
@@ -31,6 +40,8 @@ def pesso_view(request):
 # Caso comando estiver 0 vai fazer uma requisiçaõ POST para preenche formulario validar o form e adicionar a pessoa
 # O se instanciar o objeto pessoa pelo primarykey id intancia o objeto
 # pessoaform retornando id e comando pessoa removida
+
+
 @login_required()
 def pesso_view_old(request, id=0, cmd=0):
     pessoas = Pessoa.objects.all()

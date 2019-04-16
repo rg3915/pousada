@@ -9,6 +9,7 @@ urlpatterns = [
     path('', home, name='core_home'),
 
     path('pesso/', pesso_view, name='core_pessoas'),
+    path('pesso/add/', pesso_add, name='core_pessoas_add'),
     # path('pesso/(<int:pk>/', pesso_view, name='core_pessoas'),
     # path('pesso/(<int:pk>/<int:cmd>/', pesso_view, name='core_pessoas'),
 
