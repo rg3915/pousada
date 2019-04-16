@@ -2,6 +2,19 @@
 
 {% block main %}
 <!-- <h1>{ message }}</h1> -->
+
+
+<!-- Campo de Busca -->
+<div class="row" style="margin: 10px 0">
+  <div class="col-sm-6">
+    <form action="" method="GET">
+      <input id="id_search" name="search" class="form-control" type="text" placeholder="Busca" />
+      <button type="submit" class="btn btn-primary">Buscar</button>
+      <a href=".">Limpar</a>
+    </form>
+  </div>
+</div>
+
 <form action="{% url 'core:core_pessoas_add' %}" method="POST">
     {% csrf_token %}
 
