@@ -2,12 +2,15 @@ from django.urls import path
 from .views import *
 
 
+app_name = 'core'
+
+
 urlpatterns = [
     path('', home, name='core_home'),
 
     path('pesso/', pesso_view, name='core_pessoas'),
-    path('pesso/(<int:pk>/', pesso_view, name='core_pessoas'),
-    path('pesso/(<int:pk>/<int:cmd>/', pesso_view, name='core_pessoas'),
+    # path('pesso/(<int:pk>/', pesso_view, name='core_pessoas'),
+    # path('pesso/(<int:pk>/<int:cmd>/', pesso_view, name='core_pessoas'),
 
     # url quart onde lista todas quartos cadastradas
     # quart +id + comando mostra determinada quarto cadastrada e determinado
