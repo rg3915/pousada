@@ -1,8 +1,10 @@
 from django.urls import path
-# from .views import home, contato, servicos
+from pousada.hotel import views as v
 
 
 app_name = 'hotel'
 
 
-urlpatterns = []
+urlpatterns = [
+    path('dashboard', v.dashboard, name='dashboard'),
+]

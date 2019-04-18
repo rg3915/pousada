@@ -21,22 +21,22 @@
     {% block menu %}
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'core:core_home' %}">HOME</a>
+                <a class="nav-link active" href="{% url 'core:home' %}">HOME</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Servicos</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'core:core_pessoas' %}">Pessoas Novo</a>
-                    <a class="dropdown-item" href="{% url 'core:core_quartos' %}">quartos novo</a>
-                    <a class="dropdown-item" href="{% url 'core:core_rotativos' %}">Rotativos</a>
+                    <a class="dropdown-item" href="{ url 'core:core_pessoas' %}">Pessoas Novo</a>
+                    <a class="dropdown-item" href="{ url 'core:core_quartos' %}">quartos novo</a>
+                    <a class="dropdown-item" href="{ url 'core:core_rotativos' %}">Rotativos</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'core:core_mensalista' %}">Mensalistas Novo</a>
-                    <a class="dropdown-item" href="{% url 'core:core_movmensalista' %}">Mov Mensalistas</a>
+                    <a class="dropdown-item" href="{ url 'core:core_mensalista' %}">Mensalistas Novo</a>
+                    <a class="dropdown-item" href="{ url 'core:core_movmensalista' %}">Mov Mensalistas</a>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" a href="{% url 'logout' %}"> Logout </a>
+                <a class="nav-link" a href="{ url 'logout' %}"> Logout </a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
@@ -45,7 +45,7 @@
 
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}"> Login </a>
+                <a class="nav-link" href="{ url 'login' %}"> Login </a>
             </li>
             {% endif %}
 
@@ -54,6 +54,7 @@
             </li>
         </ul>
     {% endblock %}
+
     {% block main %}
     {% endblock %}
 </div>
