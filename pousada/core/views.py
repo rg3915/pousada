@@ -14,6 +14,10 @@ def home(request):
     return render(request, 'index.html', context)
 
 
+def quartos(request):
+    return render(request, 'core/quartos.html')
+
+
 @login_required
 def pesso_view(request):
     pessoas = Pessoa.objects.all()

@@ -6,7 +6,8 @@ app_name = 'core'
 
 
 urlpatterns = [
-    path('', home, name='core_home'),
+    path('', home, name='home'),
+    path('servicos/', quartos, name='servicos'),
 
     path('pesso/', pesso_view, name='core_pessoas'),
     path('pesso/add/', pesso_add, name='core_pessoas_add'),

@@ -10,13 +10,13 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{ url 'website_home' %}">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="{ url 'website_servicos' %}">Servicos</a></li>
+        <li class="active"><a href="{% url 'core:home' %}">Home</a></li>
+        <li><a href="{% url 'core:servicos' %}">Servicos</a></li>
         <li><a href="{ url 'website_contato' %}">Contato</a></li>
+        <li><a href="#">About</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'core:core_home' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="{% url 'core:home' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
   </div>
