@@ -3,4 +3,3 @@ from .models import Contato
 
 
 admin.site.register(Contato)
-
