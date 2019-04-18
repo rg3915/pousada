@@ -1,10 +1,7 @@
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from pousada.hotel.models import Contato
-from pousada.hotel.forms import ContatoForm
-from .models import Pessoa, Quarto, MovRotativo, Mensalista, MovMensalista
+from .forms import ContatoForm
 
 
 def home(request):
