@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from .models import Contato
 
+
 def home(request):
-    return render (request, 'website/index.html')
+    return render(request, 'hotel/index.html')
+
 
 def contato(request):
     try:
@@ -12,7 +14,8 @@ def contato(request):
         contato['sobrenome'] = request.POST.get('sobrenome')
         contato['endereco'] = request.POST.get('endereco')
         contato['mensagem'] = request.POST.get('mensagem')
-        contato['receber'] = True if request.POST.get('email') == 'on' else False
+        contato['receber'] = True if request.POST.get(
+            'email') == 'on' else False
 
         Contato.objects.create(**contato)
     except Exception as e:
@@ -20,7 +23,8 @@ def contato(request):
         print(mensagem)
     else:
         mensagem = 'contato realizado com sucesso'
-    return render (request, 'website/contato.html', {'mensagem': mensagem})
+    return render(request, 'hotel/contato.html', {'mensagem': mensagem})
+
 
 def servicos(request):
-    return render (request, 'website/servicos.html')
+    return render(request, 'hotel/servicos.html')

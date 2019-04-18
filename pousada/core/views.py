@@ -11,7 +11,7 @@ from .forms import *
 
 def home(request):
     context = {'mensagem': 'Ola mundo'}
-    return render(request, 'core/index.html', context)
+    return render(request, 'index.html', context)
 
 
 @login_required
