@@ -1,42 +1,238 @@
-{% extends 'base.html' %}
+{% load static %}
 
-{% block main %}
-<h1>{{ message }}</h1>
-<form action="{% url 'core_quartos' id=id cmd=cmd%}" method="POST">
-    {% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+        }
+        
+        footer {
+        background-color: #f2f2f2;
+        padding: 25px;
+        }
+        
+    .carousel-inner img {
+        width: 100%;
+        margin: auto;
+        max-height:450px;
+    }
 
-    {{ form }}
+    @media (max-width: 600px) {
+        .carousel-caption {
+        display: none; 
+        }
+    }
 
-    <button type="submit" class="btn btn-primary"> {% if update %} Atualizar {% else %} Cadastrar {% endif %}  </button>
-</form>
-{% if update %} <a href="{% url 'core_quartos' id=0 cmd=0 %}">Adicionar novo</a> {% endif %}
-<h1>Lista Quartos</h1>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Padrao Quarto</th>
-                    <th scope="col">Numero Quarto</th>
-                    <th scope="col">Hospede</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for quarto in quartos %}
-                        <tr>
-                        <th scope="row">{{quarto.id}}</th>
-                        <td>
-                            <li>
-                                <a href="{% url 'core_quartos' id=quarto.id cmd=1 %}">Update</a> 
-                                <a href="{% url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a>
-                                {{quarto.padrao}}
-                            </li>    
-                        </td>
-                        <td>{{quarto.numero}}</td>
-                        <td>{{quarto.hospede}}</td>
-                        </tr>
-                    </a>
-                </li>
-                {% endfor %}
-            </tbody>
-        </table>
-{% endblock %}
+    .panel {
+  border: 1px solid #404040	; 
+  border-radius:0;
+  transition: box-shadow 0.5s;
+}
+
+.panel:hover {
+  box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+.panel-footer .btn:hover {
+  border: 1px solid #404040	;
+  background-color: #fff !important;
+  color: #404040	;
+}
+
+.panel-heading {
+  color: #fff !important;
+  background-color: #404040	 !important;
+  padding: 25px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.panel-footer {
+  background-color: #fff !important;
+}
+
+.panel-footer h3 {
+  font-size: 32px;
+}
+
+.panel-footer h4 {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.panel-footer .btn {
+  margin: 15px 0;
+  background-color: #404040	;
+  color: #fff;
+}
+    </style>
+</head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button>
+                    <a class="navbar-brand" href="#">Logo</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'website_home' %}">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li class="active"><a href="{% url 'website_servicos' %}">Servicos</a></li>
+                        <li><a href="{% url 'website_contato' %}">Contato</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'core_home' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                </div>
+        </nav>
+
+               <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="../static/img/slide01.jpg" class="img-responsive" alt="Image">
+            <div class="carousel-caption">
+            <h3>Sell $</h3>
+            <p>Money Money.</p>
+            </div>      
+        </div>
+
+        <div class="item">
+            <img src="../static/img/slide02.jpg" alt="Image">
+            <div class="carousel-caption">
+            <h3>More Sell $</h3>
+            <p>Lorem ipsum...</p>
+            </div>      
+        </div>
+        <div class="item">
+            <img src="../static/img/slide03.jpg" alt="Image">
+            <div class="carousel-caption">
+            <h3>More Sell $</h3>
+            <p>Lorem ipsum...</p>
+        </div>      
+        </div>
+        <div class="item">
+            <img src="../static/img/slide04.jpg" alt="Image">
+            <div class="carousel-caption">
+            <h3>More Sell $</h3>
+            <p>Lorem ipsum...</p>
+            </div> 
+        </div>
+        <div class="item">
+            <img src="../static/img/slide05.jpg" alt="Image">
+            <div class="carousel-caption">
+            <h3>More Sell $</h3>
+            <p>Lorem ipsum...</p>
+            </div> 
+        </div>
+        </div>
+
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+    </div>
+            <div class="container-fluid">
+                <div class="text-center">
+                    <h2>Pricing</h2>
+                    <h4>Choose a payment plan that works for you</h4>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="panel panel-default text-center">
+                            <div class="panel-heading">
+                                <h1>Basic</h1>
+                            </div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                            <p>Current Project</p>
+                            <p><strong>20</strong> Lorem</p>
+                            <p><strong>15</strong> Ipsum</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <h3>$19</h3>
+                    <h4>per month</h4>
+                        <button class="btn btn-lg">Sign Up</button>
+                </div>
+            </div> 
+        </div> 
+            <div class="col-sm-4">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <h1>Pro</h1>
+                    </div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                            <p>Current Project</p>
+                            <p><strong>20</strong> Lorem</p>
+                            <p><strong>15</strong> Ipsum</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <h3>$29</h3>
+                    <h4>per month</h4>
+                        <button class="btn btn-lg">Sign Up</button>
+                </div>
+            </div> 
+        </div> 
+                    <div class="col-sm-4">
+                        <div class="panel panel-default text-center">
+                            <div class="panel-heading">
+                                <h1>Premium</h1>
+                            </div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                            <p>Current Project</p>
+                            <p><strong>20</strong> Lorem</p>
+                            <p><strong>15</strong> Ipsum</p>
+                    </div>
+                </div>
+                        <div class="panel-footer">
+                                <h3>$49</h3>
+                                <h4>per month</h4>
+                            <button class="btn btn-lg">Sign Up</button>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+        </div>
+        <footer class="container-fluid text-center">
+            <p>Footer Text</p>
+        </footer>
+
+    </body>
+</html>
