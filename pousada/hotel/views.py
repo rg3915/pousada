@@ -72,10 +72,70 @@ def quartos(request):
 
 
 @login_required
+def quartos_add(request):
+    pass
+
+
+@login_required
+def quartos_detail(request):
+    pass
+
+
+@login_required
+def quartos_edit(request):
+    pass
+
+
+@login_required
+def quartos_delete(request):
+    pass
+
+
+@login_required
 def rotativos(request):
     return render(request, 'hotel/rotativos.html')
 
 
 @login_required
+def rotativos_add(request):
+    pass
+
+
+@login_required
+def rotativos_detail(request):
+    pass
+
+
+@login_required
+def rotativos_edit(request):
+    pass
+
+
+@login_required
+def rotativos_delete(request):
+    pass
+
+
+@login_required
 def mensalistas(request):
     return render(request, 'hotel/mensalistas.html')
+
+
+@login_required
+def mensalistas_add(request):
+    pass
+
+
+@login_required
+def mensalistas_detail(request):
+    pass
+
+
+@login_required
+def mensalistas_edit(request):
+    pass
+
+
+@login_required
+def mensalistas_delete(request):
+    pass
