@@ -43,6 +43,13 @@ def pessoas_edit(request, pk):
 
 
 @login_required
+def pessoas_delete(request, pk):
+    pessoa = Pessoa.objects.get(pk=pk)
+    pessoa.delete()
+    return HttpResponseRedirect(resolve_url('hotel:pessoas'))
+
+
+@login_required
 def pessoas_add(request):
     form = PessoaForm(request.POST)
     if form.is_valid():

@@ -13,6 +13,7 @@ pessoas_patterns = [
     path('pessoas/add/', v.pessoas_add, name='pessoas_add'),
     path('pessoas/<int:pk>/', v.pessoas_detail, name='pessoas_detail'),
     path('pessoas/<int:pk>/edit', v.pessoas_edit, name='pessoas_edit'),
+    path('pessoas/<int:pk>/delete', v.pessoas_delete, name='pessoas_delete'),
 ]
 
 quartos_patterns = [

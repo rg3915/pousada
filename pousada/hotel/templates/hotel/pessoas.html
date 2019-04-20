@@ -54,9 +54,29 @@
                         <td>
                           <a href="{% url 'hotel:pessoas_edit' pessoa.pk %}">
                             <i class="fa fa-edit"></i>
-                          <a href="{ url 'hotel:pessoas_delete' pessoa.pk %}">
+                          <a data-toggle="modal" data-target="#myModal_{{pessoa.pk}}">
                             <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
                           </a>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="myModal_{{pessoa.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                                </div>
+                                <div class="modal-body">
+                                  Deseja deletar <b>{{ pessoa.nome }}</b>?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                  <a href="{% url 'hotel:pessoas_delete' pessoa.pk %}" type="button" class="btn btn-danger">Deletar</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </td>
                         </tr>
                     </a>
@@ -64,4 +84,5 @@
                 {% endfor %}
             </tbody>
         </table>
+
 {% endblock %}
