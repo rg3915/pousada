@@ -8,29 +8,21 @@ def dashboard(request):
     return render(request, 'hotel/dashboard.html')
 
 
-# def home(request):
-#     return render(request, 'hotel/index.html')
+@login_required
+def pessoas(request):
+    return render(request, 'hotel/pessoas.html')
 
 
-# def contato(request):
-#     try:
-#         contato = {}
-#         contato['email'] = request.POST.get('email')
-#         contato['nome'] = request.POST.get('nome')
-#         contato['sobrenome'] = request.POST.get('sobrenome')
-#         contato['endereco'] = request.POST.get('endereco')
-#         contato['mensagem'] = request.POST.get('mensagem')
-#         contato['receber'] = True if request.POST.get(
-#             'email') == 'on' else False
-
-#         Contato.objects.create(**contato)
-#     except Exception as e:
-#         mensagem = str(e)
-#         print(mensagem)
-#     else:
-#         mensagem = 'contato realizado com sucesso'
-#     return render(request, 'hotel/contato.html', {'mensagem': mensagem})
+@login_required
+def quartos(request):
+    return render(request, 'hotel/quartos.html')
 
 
-# def servicos(request):
-#     return render(request, 'hotel/servicos.html')
+@login_required
+def rotativos(request):
+    return render(request, 'hotel/rotativos.html')
+
+
+@login_required
+def mensalistas(request):
+    return render(request, 'hotel/mensalistas.html')

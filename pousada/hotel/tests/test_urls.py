@@ -11,6 +11,22 @@ class UrlTest(TestCase):
                 'url': '/hotel/dashboard/',
                 'name': 'dashboard',
             },
+            {
+                'url': '/hotel/pessoas/pessoas/',
+                'name': 'pessoas',
+            },
+            {
+                'url': '/hotel/quartos/quartos/',
+                'name': 'quartos',
+            },
+            {
+                'url': '/hotel/rotativos/rotativos/',
+                'name': 'rotativos',
+            },
+            {
+                'url': '/hotel/mensalistas/mensalistas/',
+                'name': 'mensalistas',
+            },
         )
 
         for url in urls:
