@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-# from .models import Contato
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, resolve_url
+from .models import Pessoa
+from .forms import PessoaForm
 
 
 @login_required
@@ -10,7 +12,21 @@ def dashboard(request):
 
 @login_required
 def pessoas(request):
-    return render(request, 'hotel/pessoas.html')
+    pessoas = Pessoa.objects.all()
+    form = PessoaForm()
+    data = {
+        'pessoas': pessoas,
+        'form': form,
+    }
+    return render(request, 'hotel/pessoas.html', data)
+
+
+@login_required
+def pessoas_add(request):
+    form = PessoaForm(request.POST)
+    if form.is_valid():
+        form.save()
+    return HttpResponseRedirect(resolve_url('hotel:pessoas'))
 
 
 @login_required

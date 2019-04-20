@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<form action="{ url 'core:core_pessoas_add' %}" method="POST">
+<form action="{% url 'hotel:pessoas_add' %}" method="POST">
     {% csrf_token %}
 
     {{ form }}
@@ -45,16 +45,16 @@
                         <tr>
                         <th scope="row">{{pessoa.id}}</th>
                         <td>
-                          <a href="{% url 'core:core_pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
+                          <a href="{ url 'hotel:pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
                         </td>
                         <td>{{pessoa.cpf}}</td>
                         <td>{{pessoa.cidade}}</td>
                         <td>{{pessoa.endereco}}</td>
                         <td>{{pessoa.telefone}}</td>
                         <td>
-                          <a href="{% url 'core:core_pessoas_edit' pessoa.pk %}">
+                          <a href="{ url 'hotel:pessoas_edit' pessoa.pk %}">
                             <i class="fa fa-edit"></i>
-                          <a href="{% url 'core:core_pessoas_delete' pessoa.pk %}">
+                          <a href="{ url 'hotel:pessoas_delete' pessoa.pk %}">
                             <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
                           </a>
                         </td>
