@@ -92,5 +92,5 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'core_home'
-LOGOUT_REDIRECT_URL = 'core_home'
+LOGIN_REDIRECT_URL = 'hotel:dashboard'
+LOGOUT_REDIRECT_URL = 'core:home'
