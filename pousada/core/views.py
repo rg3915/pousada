@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from .forms import ContatoForm
@@ -9,9 +8,8 @@ def home(request):
     return render(request, 'index.html', context)
 
 
-def quartos(request):
-    # Serviços
-    return render(request, 'core/quartos.html')
+def servicos(request):
+    return render(request, 'core/servicos.html')
 
 
 def contato(request):
