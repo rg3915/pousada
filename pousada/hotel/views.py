@@ -29,6 +29,20 @@ def pessoas_detail(request, pk):
 
 
 @login_required
+def pessoas_edit(request, pk):
+    pessoa = Pessoa.objects.get(pk=pk)
+    form = PessoaForm(request.POST or None, instance=pessoa)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(resolve_url('hotel:pessoas'))
+    data = {
+        'pessoa': pessoa,
+        'form': form,
+    }
+    return render(request, 'hotel/pessoas_editar.html', data)
+
+
+@login_required
 def pessoas_add(request):
     form = PessoaForm(request.POST)
     if form.is_valid():

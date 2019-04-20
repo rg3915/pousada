@@ -52,7 +52,7 @@
                         <td>{{pessoa.endereco}}</td>
                         <td>{{pessoa.telefone}}</td>
                         <td>
-                          <a href="{ url 'hotel:pessoas_edit' pessoa.pk %}">
+                          <a href="{% url 'hotel:pessoas_edit' pessoa.pk %}">
                             <i class="fa fa-edit"></i>
                           <a href="{ url 'hotel:pessoas_delete' pessoa.pk %}">
                             <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
