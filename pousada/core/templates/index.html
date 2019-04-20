@@ -3,26 +3,12 @@
 
 {% block head %}
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 {% endblock head %}
 
 {% block style %}
-  <style>
-    .carousel-inner img {
-      width: 100%; /* Set width to 100% */
-      margin: auto;
-      max-height:450px;
-    }
-    /* Hide the carousel text when the screen is less than 600 pixels wide */
-    @media (max-width: 600px) {
-      .carousel-caption {
-        display: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
 {% endblock style %}
 
 {% block content %}
