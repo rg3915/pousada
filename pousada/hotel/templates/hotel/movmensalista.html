@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block main %}
+{% block content %}
 <h1>{{ message }}</h1>
 <form action="{% url 'core_movmensalista' id=id cmd=cmd%}" method="POST">
     {% csrf_token %}

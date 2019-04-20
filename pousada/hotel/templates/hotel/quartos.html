@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block main %}
+{% block content %}
 <h1>{{ message }}</h1>
-<form action="{% url 'core_quartos' id=id cmd=cmd%}" method="POST">
+<form action="{ url 'core_quartos' id=id cmd=cmd%}" method="POST">
     {% csrf_token %}
 
     {{ form }}
 
     <button type="submit" class="btn btn-primary"> {% if update %} Atualizar {% else %} Cadastrar {% endif %}  </button>
 </form>
-{% if update %} <a href="{% url 'core_quartos' id=0 cmd=0 %}">Adicionar novo</a> {% endif %}
+{% if update %} <a href="{ url 'core_quartos' id=0 cmd=0 %}">Adicionar novo</a> {% endif %}
 <h1>Lista Quartos</h1>
         <table class="table">
             <thead class="thead-dark">
@@ -26,8 +26,8 @@
                         <th scope="row">{{quarto.id}}</th>
                         <td>
                             <li>
-                                <a href="{% url 'core_quartos' id=quarto.id cmd=1 %}">Update</a> 
-                                <a href="{% url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a>
+                                <a href="{ url 'core_quartos' id=quarto.id cmd=1 %}">Update</a> 
+                                <a href="{ url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a>
                                 {{quarto.padrao}}
                             </li>    
                         </td>
