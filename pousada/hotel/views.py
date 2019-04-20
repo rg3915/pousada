@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from .models import Pessoa
@@ -14,6 +15,14 @@ def dashboard(request):
 def pessoas(request):
     pessoas = Pessoa.objects.all()
     form = PessoaForm()
+
+    # Search
+    search = request.GET.get('search')
+    if search:
+        pessoas = pessoas.filter(
+            Q(nome__icontains=search,) |
+            Q(cpf__icontains=search,)
+        )
     data = {
         'pessoas': pessoas,
         'form': form,
