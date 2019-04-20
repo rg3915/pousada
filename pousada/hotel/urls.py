@@ -11,6 +11,7 @@ dashboard_patterns = [
 pessoas_patterns = [
     path('pessoas/', v.pessoas, name='pessoas'),
     path('pessoas/add/', v.pessoas_add, name='pessoas_add'),
+    path('pessoas/<int:pk>/', v.pessoas_detail, name='pessoas_detail'),
 ]
 
 quartos_patterns = [

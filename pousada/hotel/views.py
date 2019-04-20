@@ -22,6 +22,13 @@ def pessoas(request):
 
 
 @login_required
+def pessoas_detail(request, pk):
+    pessoa = Pessoa.objects.get(pk=pk)
+    data = {'pessoa': pessoa}
+    return render(request, 'hotel/pessoas_detail.html', data)
+
+
+@login_required
 def pessoas_add(request):
     form = PessoaForm(request.POST)
     if form.is_valid():

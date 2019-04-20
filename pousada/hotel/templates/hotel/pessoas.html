@@ -45,7 +45,7 @@
                         <tr>
                         <th scope="row">{{pessoa.id}}</th>
                         <td>
-                          <a href="{ url 'hotel:pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
+                          <a href="{% url 'hotel:pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
                         </td>
                         <td>{{pessoa.cpf}}</td>
                         <td>{{pessoa.cidade}}</td>

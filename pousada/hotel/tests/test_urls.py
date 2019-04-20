@@ -26,6 +26,10 @@ class UrlTest(TestCase):
                 'url': '/hotel/pessoas/pessoas/',
                 'name': 'pessoas',
             },
+            # {
+            #     'url': '/hotel/pessoas/pessoas/1/',
+            #     'name': 'pessoas_detail',
+            # },
             {
                 'url': '/hotel/pessoas/pessoas/add/',
                 'name': 'pessoas_add',
