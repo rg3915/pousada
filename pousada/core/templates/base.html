@@ -4,59 +4,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    
+    {% block head %}
+      <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 
-    <!-- Font-awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <!-- Font-awesome -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="{%static 'bootstrap/js/bootstrap.js'%}"></script>
-    <title> Document </title>
+      <!-- jQuery -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="{%static 'bootstrap/js/bootstrap.js'%}"></script>
+    {% endblock head %}
+
+    <title>Pousada</title>
+
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */
+        .navbar {
+          margin-bottom: 0;
+          border-radius: 0;
+        }
+        
+      /* Add a gray background color and some padding to the footer */
+      footer {
+        background-color: #f2f2f2;
+        padding: 25px;
+      }
+    </style>
+
+    {% block style %}{% endblock style %}
+
 </head>
 <body>
 <div class="container-fluid">
-    {% block menu %}
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'core:home' %}">HOME</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Servicos</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{ url 'core:core_pessoas' %}">Pessoas Novo</a>
-                    <a class="dropdown-item" href="{ url 'core:core_quartos' %}">quartos novo</a>
-                    <a class="dropdown-item" href="{ url 'core:core_rotativos' %}">Rotativos</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{ url 'core:core_mensalista' %}">Mensalistas Novo</a>
-                    <a class="dropdown-item" href="{ url 'core:core_movmensalista' %}">Mov Mensalistas</a>
-                </div>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" a href="{ url 'logout' %}"> Logout </a>
-            </li>
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link disabled" href="">Ola, {{ user  }}</a>
-            </li>
+  {% include "includes/menu.html" %}
 
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{ url 'login' %}"> Login </a>
-            </li>
-            {% endif %}
+  {% block content %}{% endblock content %}
 
-            <li class="nav-item">
-                <a class="nav-link" a href="{ url 'hotel:website_home' %}"> Voltar </a>
-            </li>
-        </ul>
-    {% endblock %}
+  {% include "includes/footer.html" %}
 
-    {% block main %}
-    {% endblock %}
 </div>
 </body>
 </html>
