@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Pessoa, Quarto, Mensalista, MovRotativo
+from .models import Pessoa, Padrao, Quarto, Mensalista, MovRotativo
+
+
+@admin.register(Padrao)
+class PadraoAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ('nome',)
 
 
 @admin.register(Pessoa)
@@ -10,7 +16,7 @@ class PessoaAdmin(admin.ModelAdmin):
 
 @admin.register(Quarto)
 class QuartoAdmin(admin.ModelAdmin):
-    list_display = ('padrao', 'numero', 'hospede', 'cor')
+    list_display = ('padrao', 'numero', 'cor')
 
 
 @admin.register(Mensalista)

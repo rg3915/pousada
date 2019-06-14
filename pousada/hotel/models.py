@@ -23,7 +23,7 @@ class Padrao(models.Model):
 class Quarto(models.Model):
     padrao = models.ForeignKey(Padrao, on_delete=models.CASCADE)
     numero = models.CharField(max_length=7)
-    hospede = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    # hospede = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     cor = models.CharField(max_length=15)
     observacoes = models.TextField()
 
@@ -39,11 +39,31 @@ class Parametros(models.Model):
         return 'Parametros Gerais'
 
 
+FORMA_PAGTO = (
+    ('di', 'Dinheiro'),
+    ('de', 'Débito'),
+    ('cr', 'Crédito'),
+)
+
+
 class MovRotativo(models.Model):
+    nome_cliente = models.ForeignKey(
+        Pessoa,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
+    valor_hora = models.DecimalField(
+        max_digits=5, decimal_places=2, help_text='Valor do quarto reservado.')
     checkin = models.DateTimeField(auto_now=False)
     checkout = models.DateTimeField(auto_now=False, null=True, blank=True)
-    valor_hora = models.DecimalField(max_digits=5, decimal_places=2)
-    quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
+    forma_pagto = models.CharField(
+        'forma de pagto',
+        max_length=2,
+        choices=FORMA_PAGTO,
+        default='de',
+    )
     pago = models.BooleanField(default=False)
 
     def horas_total(self):

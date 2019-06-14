@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from .models import Pessoa
-from .forms import PessoaForm
+from .forms import PessoaForm, MovRotativoForm
 
 
 @login_required
@@ -98,8 +98,10 @@ def rotativos(request):
 
 @login_required
 def rotativos_add(request):
+    form = MovRotativoForm()
     template_name = 'hotel/rotativos_add.html'
-    return render(request, template_name)
+    context = {'form': form}
+    return render(request, template_name, context)
 
 
 # @login_required
