@@ -26,7 +26,7 @@ quartos_patterns = [
 
 rotativos_patterns = [
     path('rotativos/', v.rotativos, name='rotativos'),
-    # path('rotativos/add/', v.rotativos_add, name='rotativos_add'),
+    path('rotativos/add/', v.rotativos_add, name='rotativos_add'),
     # path('rotativos/<int:pk>/', v.rotativos_detail, name='rotativos_detail'),
     # path('rotativos/<int:pk>/edit', v.rotativos_edit, name='rotativos_edit'),
     # path('rotativos/<int:pk>/delete', v.rotativos_delete, name='rotativos_delete'),

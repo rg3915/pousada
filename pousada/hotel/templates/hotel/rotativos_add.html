@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container text-center">
+  <div class="row row-space">
+    <div class="col-md-6">
+      <form action="{ url 'core:contato_add' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label for="inputEmail4">Quarto</label>
+            <input type="email" class="form-control" id="inputEmail4"
+            placeholder="Email" name="email">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </form>
+    </div>
+    <div class="col-6">
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

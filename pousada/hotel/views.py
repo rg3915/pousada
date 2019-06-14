@@ -96,9 +96,10 @@ def rotativos(request):
     return render(request, 'hotel/rotativos.html')
 
 
-# @login_required
-# def rotativos_add(request):
-#     pass
+@login_required
+def rotativos_add(request):
+    template_name = 'hotel/rotativos_add.html'
+    return render(request, template_name)
 
 
 # @login_required
