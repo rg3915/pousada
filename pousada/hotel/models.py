@@ -23,6 +23,7 @@ class Padrao(models.Model):
 class Quarto(models.Model):
     padrao = models.ForeignKey(Padrao, on_delete=models.CASCADE)
     numero = models.CharField(max_length=7)
+    valor_diaria = models.DecimalField(max_digits=5, decimal_places=2)
     # hospede = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     cor = models.CharField(max_length=15)
     observacoes = models.TextField()
@@ -54,8 +55,11 @@ class MovRotativo(models.Model):
         blank=True
     )
     quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
-    valor_hora = models.DecimalField(
-        max_digits=5, decimal_places=2, help_text='Valor do quarto reservado.')
+    valor_diaria = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        help_text='Valor do quarto reservado.'
+    )
     checkin = models.DateTimeField(auto_now=False)
     checkout = models.DateTimeField(auto_now=False, null=True, blank=True)
     forma_pagto = models.CharField(
