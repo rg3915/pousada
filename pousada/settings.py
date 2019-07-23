@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'bootstrapform',
+    'widget_tweaks',
     'pousada.core',
     'pousada.hotel',
 ]
