@@ -26,4 +26,4 @@ class MensalistaAdmin(admin.ModelAdmin):
 
 @admin.register(MovRotativo)
 class MovRotativoAdmin(admin.ModelAdmin):
-    list_display = ('checkin', 'checkout', 'valor_hora', 'quarto', 'pago')
+    list_display = ('checkin', 'checkout', 'quarto', 'pago')
