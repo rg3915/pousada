@@ -3,8 +3,8 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.views.generic import CreateView
-from .models import Pessoa, Quarto
-from .forms import PessoaForm, QuartoForm, MovRotativoForm
+from .models import Pessoa, Quarto, Reserva
+from .forms import PessoaForm, QuartoForm, ReservaForm
 
 
 @login_required
@@ -104,30 +104,31 @@ class QuartosAdd(CreateView):
 
 
 @login_required
-def rotativos(request):
-    return render(request, 'hotel/rotativos.html')
-
-
-@login_required
-def rotativos_add(request):
-    form = MovRotativoForm()
-    template_name = 'hotel/rotativos_add.html'
-    context = {'form': form}
+def reserva(request):
+    object_list = Reserva.objects.all()
+    template_name = 'hotel/reservas.html'
+    context = {'object_list': object_list}
     return render(request, template_name, context)
 
 
+class ReservaAdd(CreateView):
+    model = Reserva
+    form_class = ReservaForm
+    template_name = 'hotel/reservas_add.html'
+
+
 # @login_required
-# def rotativos_detail(request):
+# def reserva_detail(request):
 #     pass
 
 
 # @login_required
-# def rotativos_edit(request):
+# def reserva_edit(request):
 #     pass
 
 
 # @login_required
-# def rotativos_delete(request):
+# def reserva_delete(request):
 #     pass
 
 
