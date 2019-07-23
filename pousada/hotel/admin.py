@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pessoa, Padrao, Quarto, Mensalista, MovRotativo
+from .models import Pessoa, Padrao, Quarto, Mensalista, Reserva
 
 
 @admin.register(Padrao)
@@ -24,6 +24,6 @@ class MensalistaAdmin(admin.ModelAdmin):
     list_display = ('quarto', 'inicio', 'valor_mes')
 
 
-@admin.register(MovRotativo)
-class MovRotativoAdmin(admin.ModelAdmin):
+@admin.register(Reserva)
+class ReservaAdmin(admin.ModelAdmin):
     list_display = ('checkin', 'checkout', 'quarto', 'pago')

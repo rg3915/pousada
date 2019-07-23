@@ -53,15 +53,17 @@ FORMA_PAGTO = (
 )
 
 
-class MovRotativo(models.Model):
+class Reserva(models.Model):
     nome_cliente = models.ForeignKey(
         Pessoa,
+        verbose_name='cliente',
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
     valor_diaria = models.DecimalField(
+        'valor diária',
         max_digits=5,
         decimal_places=2,
         help_text='Valor do quarto reservado.'
@@ -76,14 +78,22 @@ class MovRotativo(models.Model):
     )
     pago = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('nome_cliente',)
+        verbose_name = 'reserva'
+        verbose_name_plural = 'reservas'
+
+    def __str__(self):
+        return self.quarto.numero
+
+    def get_absolute_url(self):
+        return resolve_url('hotel:reserva')  # , pk=self.pk
+
     def horas_total(self):
         return math.ceil((self.checkout - self.checkin).total_seconds() / 3600)
 
     def total(self):
         return self.valor_hora * self.horas_total()
-
-    def __str__(self):
-        return self.quarto.numero
 
 
 class Mensalista(models.Model):

@@ -24,12 +24,12 @@ quartos_patterns = [
     # path('quartos/<int:pk>/delete', v.quartos_delete, name='quartos_delete'),
 ]
 
-rotativos_patterns = [
-    path('rotativos/', v.rotativos, name='rotativos'),
-    path('rotativos/add/', v.rotativos_add, name='rotativos_add'),
-    # path('rotativos/<int:pk>/', v.rotativos_detail, name='rotativos_detail'),
-    # path('rotativos/<int:pk>/edit', v.rotativos_edit, name='rotativos_edit'),
-    # path('rotativos/<int:pk>/delete', v.rotativos_delete, name='rotativos_delete'),
+reserva_patterns = [
+    path('reserva/', v.reserva, name='reserva'),
+    path('reserva/add/', v.ReservaAdd.as_view(), name='reserva_add'),
+    # path('reserva/<int:pk>/', v.reserva_detail, name='reserva_detail'),
+    # path('reserva/<int:pk>/edit', v.reserva_edit, name='reserva_edit'),
+    # path('reserva/<int:pk>/delete', v.reserva_delete, name='reserva_delete'),
 ]
 
 mensalistas_patterns = [
@@ -45,6 +45,6 @@ urlpatterns = [
     path('', include(dashboard_patterns)),
     path('pessoas/', include(pessoas_patterns)),
     path('quartos/', include(quartos_patterns)),
-    path('rotativos/', include(rotativos_patterns)),
+    path('reserva/', include(reserva_patterns)),
     path('mensalistas/', include(mensalistas_patterns)),
 ]
