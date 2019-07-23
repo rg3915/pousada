@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
-from .models import Pessoa
-from .forms import PessoaForm, MovRotativoForm
+from django.views.generic import CreateView
+from .models import Pessoa, Quarto
+from .forms import PessoaForm, QuartoForm, MovRotativoForm
 
 
 @login_required
@@ -68,12 +69,23 @@ def pessoas_add(request):
 
 @login_required
 def quartos(request):
-    return render(request, 'hotel/quartos.html')
+    quartos = Quarto.objects.all()
+    template_name = 'hotel/quartos.html'
+    context = {'quartos': quartos}
+    return render(request, template_name, context)
 
 
 # @login_required
 # def quartos_add(request):
-#     pass
+#     form = QuartoForm(request.POST)
+#     template_name = 'hotel/quartos_add.html'
+#     context = {'form': form}
+#     return render(request, template_name, context)
+
+class QuartosAdd(CreateView):
+    model = Quarto
+    form_class = QuartoForm
+    template_name = 'hotel/quartos_add.html'
 
 
 # @login_required
