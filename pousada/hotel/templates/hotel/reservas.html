@@ -10,6 +10,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Hóspede</th>
                     <th scope="col">Checkin</th>
                     <th scope="col">Checkout</th>
                     <th scope="col">Valor Hora</th>
@@ -28,8 +29,9 @@
                                 {{object.checkin}}
                             </li>    
                         </td>
+                            <td>{{object.nome_cliente}}</td>
                             <td>{{object.checkout}}</td>
-                            <td>{{object.valor_hora}}</td>
+                            <td>{{object.valor_diaria}}</td>
                             <td>{{object.quarto}}</td>
                             <td>{{object.pago}}</td>
                         </tr>

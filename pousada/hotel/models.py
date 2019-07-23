@@ -28,7 +28,6 @@ class Quarto(models.Model):
     numero = models.CharField('número', max_length=7)
     valor_diaria = models.DecimalField(
         'valor diária', max_digits=5, decimal_places=2)
-    # hospede = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     observacoes = models.TextField('observações', null=True, blank=True)
 
     def __str__(self):
@@ -88,6 +87,15 @@ class Reserva(models.Model):
 
     def get_absolute_url(self):
         return resolve_url('hotel:reserva')  # , pk=self.pk
+
+    def is_ocupado(self):
+        '''
+        Está ocupado? Sim ou não?
+        '''
+        if self.checkout:
+            return False
+        else:
+            return True
 
     def horas_total(self):
         return math.ceil((self.checkout - self.checkin).total_seconds() / 3600)
