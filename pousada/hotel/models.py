@@ -1,3 +1,4 @@
+from django.shortcuts import resolve_url
 from django.db import models
 import math
 
@@ -22,15 +23,19 @@ class Padrao(models.Model):
 
 
 class Quarto(models.Model):
-    padrao = models.ForeignKey(Padrao, on_delete=models.CASCADE)
-    numero = models.CharField(max_length=7)
-    valor_diaria = models.DecimalField(max_digits=5, decimal_places=2)
+    padrao = models.ForeignKey(
+        Padrao, verbose_name='padrão', on_delete=models.CASCADE)
+    numero = models.CharField('número', max_length=7)
+    valor_diaria = models.DecimalField(
+        'valor diária', max_digits=5, decimal_places=2)
     # hospede = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    cor = models.CharField(max_length=15)
-    observacoes = models.TextField()
+    observacoes = models.TextField('observações', null=True, blank=True)
 
     def __str__(self):
         return self.padrao.nome + ' - ' + self.numero
+
+    def get_absolute_url(self):
+        return resolve_url('hotel:quartos')  # , pk=self.pk
 
 
 class Parametros(models.Model):
