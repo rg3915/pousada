@@ -76,9 +76,9 @@ class Reserva(models.Model):
         verbose_name='cliente',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
     )
-    quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
+    quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE, blank=True)
     valor_diaria = models.DecimalField(
         'valor diária',
         max_digits=6,

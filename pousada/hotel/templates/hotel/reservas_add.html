@@ -15,6 +15,9 @@
   <div class="row row-space">
     <div class="col-md-6">
       <form action="." method="POST">
+        <p>Quarto: {{ quarto }}</p>
+        <p>Pessoa: {{ pessoa }}</p>
+        <p>Diária: {{ valor_diaria }}</p>
         {% csrf_token %}
         {% for field in form.visible_fields %}
           <div class="form-group{% if field.errors %} has-error {% endif %}">

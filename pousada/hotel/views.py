@@ -87,6 +87,7 @@ def pre_reserva_pessoa_add(request):
         # O response vem com o pk do quarto.
         quarto = Quarto.objects.get(pk=response)
         request.session['quarto'] = response
+        request.session['valor_diaria'] = float(quarto.valor_diaria)
     context = {'form': form, 'quarto': quarto}
     return render(request, template_name, context)
 
@@ -95,14 +96,17 @@ def pre_reserva_reserva_add(request):
     form = ReservaForm(request.POST or None)
     template_name = 'hotel/reservas_add.html'
     if request.method == 'POST':
-        pass
+        import ipdb
+        ipdb.set_trace()
     else:
-        response_quarto = request.session['quarto']
         response_pessoa = request.session['pessoa']
+        response_quarto = request.session['quarto']
+        response_valor_diaria = request.session['valor_diaria']
     context = {
         'form': form,
         'quarto': response_quarto,
-        'pessoa': response_pessoa
+        'pessoa': response_pessoa,
+        'valor_diaria': response_valor_diaria,
     }
     return render(request, template_name, context)
 
