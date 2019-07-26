@@ -92,8 +92,19 @@ def pre_reserva_pessoa_add(request):
 
 
 def pre_reserva_reserva_add(request):
+    form = ReservaForm(request.POST or None)
     template_name = 'hotel/reservas_add.html'
-    return render(request, template_name)
+    if request.method == 'POST':
+        pass
+    else:
+        response_quarto = request.session['quarto']
+        response_pessoa = request.session['pessoa']
+    context = {
+        'form': form,
+        'quarto': response_quarto,
+        'pessoa': response_pessoa
+    }
+    return render(request, template_name, context)
 
 
 @login_required

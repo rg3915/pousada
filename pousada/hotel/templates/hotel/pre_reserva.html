@@ -30,7 +30,8 @@
             {% if object.reservado %}
               <button class="btn btn-warning">Fazer checkout</button>
             {% else %}
-              <a class="btn btn-primary" href="{% url 'hotel:reserva_add' %}">Reservar</a>
+              <a class="btn btn-primary"
+                 href="{% url 'hotel:pre_reserva_pessoas_add' %}?quarto={{object.pk}}">Reservar</a>
             {% endif %}
           </td>
         </tr>
