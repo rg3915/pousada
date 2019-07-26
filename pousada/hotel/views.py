@@ -104,6 +104,14 @@ class QuartosAdd(CreateView):
 
 
 @login_required
+def pre_reserva(request):
+    quartos = Quarto.objects.all()
+    context = {'object_list': quartos}
+    template_name = 'hotel/pre_reserva.html'
+    return render(request, template_name, context)
+
+
+@login_required
 def reserva(request):
     object_list = Reserva.objects.all()
     template_name = 'hotel/reservas.html'

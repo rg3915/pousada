@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Pré Reservas</h1>
+  <h2>Consulta de quartos</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Quarto</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Reservado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{object.padrao}}</td>
+          <td>{{object.valor_diaria}}</td>
+          <td>{{object.reservado}}</td>
+        </tr>
+      </a>
+    </li>
+  {% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

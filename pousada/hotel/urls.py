@@ -24,6 +24,10 @@ quartos_patterns = [
     # path('quartos/<int:pk>/delete', v.quartos_delete, name='quartos_delete'),
 ]
 
+pre_reserva_patterns = [
+    path('pre-reserva/', v.pre_reserva, name='pre_reserva'),
+]
+
 reserva_patterns = [
     path('reserva/', v.reserva, name='reserva'),
     path('reserva/add/', v.ReservaAdd.as_view(), name='reserva_add'),
@@ -46,5 +50,6 @@ urlpatterns = [
     path('pessoas/', include(pessoas_patterns)),
     path('quartos/', include(quartos_patterns)),
     path('reserva/', include(reserva_patterns)),
+    path('pre_reserva/', include(pre_reserva_patterns)),
     path('mensalistas/', include(mensalistas_patterns)),
 ]
