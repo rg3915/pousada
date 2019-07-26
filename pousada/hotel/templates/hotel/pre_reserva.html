@@ -9,7 +9,8 @@
         <th scope="col">Quarto</th>
         <th scope="col">Padrão</th>
         <th scope="col">Valor</th>
-        <th scope="col">Reservado</th>
+        <th scope="col">Liberado</th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody>
@@ -18,7 +19,20 @@
           <td>{{object}}</td>
           <td>{{object.padrao}}</td>
           <td style="width: 150px;">R$ <span class="pull-right">{{object.valor_diaria}}</span></td>
-          <td>{{object.reservado}}</td>
+          <td>
+            {% if object.reservado %}
+              <i class="fa fa-close" style="color: red"></i>
+            {% else %}
+              <i class="fa fa-check" style="color: green"></i>
+            {% endif %}
+          </td>
+          <td>
+            {% if object.reservado %}
+              <button class="btn btn-warning">Fazer checkout</button>
+            {% else %}
+              <a class="btn btn-primary" href="{% url 'hotel:reserva_add' %}">Reservar</a>
+            {% endif %}
+          </td>
         </tr>
       </a>
     </li>
