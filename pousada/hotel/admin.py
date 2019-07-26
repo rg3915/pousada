@@ -26,4 +26,4 @@ class MensalistaAdmin(admin.ModelAdmin):
 
 @admin.register(Reserva)
 class ReservaAdmin(admin.ModelAdmin):
-    list_display = ('checkin', 'checkout', 'quarto', 'pago')
+    list_display = ('pk', 'checkin', 'checkout', 'quarto', 'pago')

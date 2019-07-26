@@ -14,7 +14,7 @@
 <div class="container text-center">
   <div class="row row-space">
     <div class="col-md-6">
-      <form action="." method="POST">
+      <form action="." method="POST" data-valor="{{ valor_diaria }}">
         <p>Quarto: {{ quarto }}</p>
         <p>Pessoa: {{ pessoa }}</p>
         <p>Diária: {{ valor_diaria }}</p>
@@ -55,11 +55,44 @@ $(document).ready(function(){
     $("#id_checkout").attr('autocomplete', 'off');
 
     $( function() {
-      $("#id_checkin").datepicker();
-      $("#id_pre_checkout").datepicker();
-      $("#id_checkout").datepicker();
+      $("#id_checkin").datepicker({ dateFormat: 'dd/mm/yy' });
+      $("#id_pre_checkout").datepicker({ dateFormat: 'dd/mm/yy' });
+      $("#id_checkout").datepicker({ dateFormat: 'dd/mm/yy' });
     });
 });
+
+$('#id_pre_checkout').on('change', function() {
+  var start = $('#id_checkin').val();
+  var end = $(this).val();
+  // Convert date to default format
+  var dayStart = start.split('/')[0]
+  var monthStart = start.split('/')[1]
+  var yearStart = start.split('/')[2]
+  var startDateFormated = yearStart + '-' + monthStart + '-' + dayStart
+  var dayEnd = end.split('/')[0]
+  var monthEnd = end.split('/')[1]
+  var yearEnd = end.split('/')[2]
+  var endDateFormated = yearEnd + '-' + monthEnd + '-' + dayEnd
+
+  // end - start returns difference in milliseconds
+  var startDate = new Date(startDateFormated);
+  var endDate = new Date(endDateFormated);
+  var millisecondsPerDay = 1000 * 60 * 60 * 24;
+  var millisBetween = endDate.getTime() - startDate.getTime();
+  var days = millisBetween / millisecondsPerDay;
+  // get days
+  var valor = $('form').data('valor');
+  var valor_total = parseInt(days) * parseInt(valor);
+  console.log(valor_total);
+  $('#id_valor_diaria').val(valor_total);
+
+  $('#id_quarto').val('{{ quarto }}');
+  $('#id_nome_cliente').val('{{ pessoa }}');
+});
+
+
+
+
 </script>
 
 {% endblock js %}

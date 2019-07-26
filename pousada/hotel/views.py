@@ -95,13 +95,18 @@ def pre_reserva_pessoa_add(request):
 def pre_reserva_reserva_add(request):
     form = ReservaForm(request.POST or None)
     template_name = 'hotel/reservas_add.html'
+    response_pessoa = None
+    response_quarto = None
+    response_valor_diaria = None
+
     if request.method == 'POST':
-        import ipdb
-        ipdb.set_trace()
+        if form.is_valid():
+            form.save()
     else:
         response_pessoa = request.session['pessoa']
         response_quarto = request.session['quarto']
         response_valor_diaria = request.session['valor_diaria']
+
     context = {
         'form': form,
         'quarto': response_quarto,
@@ -147,7 +152,7 @@ class QuartosAdd(CreateView):
 #     pass
 
 
-@login_required
+# @login_required
 def pre_reserva(request):
     quartos = Quarto.objects.all()
     context = {'object_list': quartos}

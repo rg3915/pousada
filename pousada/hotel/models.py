@@ -100,9 +100,11 @@ class Reserva(models.Model):
         default='de',
     )
     pago = models.BooleanField(default=False)
+    created = models.TimeField(auto_now=True)
 
     class Meta:
-        ordering = ('nome_cliente',)
+        # ordering = ('nome_cliente',)
+        ordering = ('-pk',)
         verbose_name = 'reserva'
         verbose_name_plural = 'reservas'
 
