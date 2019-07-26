@@ -16,7 +16,7 @@ class PessoaAdmin(admin.ModelAdmin):
 
 @admin.register(Quarto)
 class QuartoAdmin(admin.ModelAdmin):
-    list_display = ('padrao', 'numero',)
+    list_display = ('__str__', 'padrao', 'valor_diaria',)
 
 
 @admin.register(Mensalista)

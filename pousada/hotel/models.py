@@ -23,15 +23,24 @@ class Padrao(models.Model):
 
 
 class Quarto(models.Model):
+    titulo = models.CharField('título', max_length=200)
     padrao = models.ForeignKey(
-        Padrao, verbose_name='padrão', on_delete=models.CASCADE)
-    numero = models.CharField('número', max_length=7)
+        Padrao,
+        verbose_name='padrão',
+        on_delete=models.CASCADE
+    )
+    numero = models.IntegerField('número')
     valor_diaria = models.DecimalField(
         'valor diária', max_digits=5, decimal_places=2)
     observacoes = models.TextField('observações', null=True, blank=True)
 
+    class Meta:
+        ordering = ('numero',)
+        verbose_name = 'quarto'
+        verbose_name_plural = 'quartos'
+
     def __str__(self):
-        return self.padrao.nome + ' - ' + self.numero
+        return '{} - {}'.format(self.numero, self.titulo)
 
     def get_absolute_url(self):
         return resolve_url('hotel:quartos')  # , pk=self.pk
