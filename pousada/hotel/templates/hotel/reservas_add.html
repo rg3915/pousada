@@ -43,3 +43,23 @@
 </div>
 
 {% endblock content %}
+
+{% block js %}
+
+<script>
+
+$(document).ready(function(){
+    // Removendo autocomplete de data
+    $('#id_checkin').attr('autocomplete', 'off');
+    $("#id_pre_checkout").attr('autocomplete', 'off');
+    $("#id_checkout").attr('autocomplete', 'off');
+
+    $( function() {
+      $("#id_checkin").datepicker();
+      $("#id_pre_checkout").datepicker();
+      $("#id_checkout").datepicker();
+    });
+});
+</script>
+
+{% endblock js %}

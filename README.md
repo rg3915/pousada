@@ -14,6 +14,9 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 python contrib/env_gen.py
 python manage.py migrate
+python manage.py createsuperuser
+python create_data.py
+python manage.py runserver
 ```
 
 ## Links
