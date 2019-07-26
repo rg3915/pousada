@@ -1,37 +1,34 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1>{{ message }}</h1>
-
-<a href="{% url 'hotel:quartos_add' %}" class="btn btn-primary">Cadastrar</a>
-
-<h1>Lista de Quartos</h1>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Padrao Quarto</th>
-                    <th scope="col">Numero Quarto</th>
-                    <th scope="col">Hospede</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for quarto in quartos %}
-                        <tr>
-                        <th scope="row">{{quarto.id}}</th>
-                        <td>
-                            <li>
-                                <a href="{ url 'core_quartos' id=quarto.id cmd=1 %}">Update</a> 
-                                <a href="{ url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a>
-                                {{quarto.padrao}}
-                            </li>    
-                        </td>
-                        <td>{{quarto.numero}}</td>
-                        <td>{{quarto.hospede}}</td>
-                        </tr>
-                    </a>
-                </li>
-                {% endfor %}
-            </tbody>
-        </table>
+  <h1>{{ message }}</h1>
+  <a href="{% url 'hotel:quartos_add' %}" class="btn btn-primary">Cadastrar</a>
+  <h1>Lista de Quartos</h1>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Número</th>
+        <th scope="col">Título</th>
+        <th scope="col">Padrão</th>
+        <th scope="col">Diária</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quarto in quartos %}
+        <tr>
+          <td style="width: 100px;">{{quarto.numero}}</td>
+          <td>{{quarto.titulo}}</td>
+          <td>
+            <!-- <a href="{ url 'core_quartos' id=quarto.id cmd=1 %}">Update</a>  -->
+            <!-- <a href="{ url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a> -->
+            {{quarto.padrao}}
+          </td>
+          <td style="width: 150px;">R$ <span class="pull-right">{{quarto.valor_diaria}}</span></td>
+          <td></td>
+        </tr>
+      </a>
+    </li>
+  {% endfor %}
+</tbody>
+</table>
 {% endblock %}

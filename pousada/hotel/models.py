@@ -31,7 +31,7 @@ class Quarto(models.Model):
     )
     numero = models.IntegerField('número')
     valor_diaria = models.DecimalField(
-        'valor diária', max_digits=5, decimal_places=2)
+        'valor diária', max_digits=6, decimal_places=2)
     observacoes = models.TextField('observações', null=True, blank=True)
 
     class Meta:
@@ -44,6 +44,15 @@ class Quarto(models.Model):
 
     def get_absolute_url(self):
         return resolve_url('hotel:quartos')  # , pk=self.pk
+
+    def reservado(self):
+        # Verifica se o quarto está reservado ou não.
+        # Retorna os quartos reservados
+        esta_reservado = Reserva.objects.filter(
+            quarto=self, checkout__isnull=True).first()
+        if esta_reservado:
+            return True
+        return False
 
 
 class Parametros(models.Model):
@@ -72,7 +81,7 @@ class Reserva(models.Model):
     quarto = models.ForeignKey(Quarto, on_delete=models.CASCADE)
     valor_diaria = models.DecimalField(
         'valor diária',
-        max_digits=5,
+        max_digits=6,
         decimal_places=2,
         help_text='Valor do quarto reservado.'
     )
@@ -92,19 +101,10 @@ class Reserva(models.Model):
         verbose_name_plural = 'reservas'
 
     def __str__(self):
-        return self.quarto.numero
+        return str(self.quarto.numero)
 
     def get_absolute_url(self):
         return resolve_url('hotel:reserva')  # , pk=self.pk
-
-    def is_ocupado(self):
-        '''
-        Está ocupado? Sim ou não?
-        '''
-        if self.checkout:
-            return False
-        else:
-            return True
 
     def horas_total(self):
         return math.ceil((self.checkout - self.checkin).total_seconds() / 3600)
