@@ -85,8 +85,14 @@ class Reserva(models.Model):
         decimal_places=2,
         help_text='Valor do quarto reservado.'
     )
-    checkin = models.DateTimeField(auto_now=False)
-    checkout = models.DateTimeField(auto_now=False, null=True, blank=True)
+    checkin = models.DateTimeField('Entrada', auto_now=False)
+    pre_checkout = models.DateTimeField('Previsão de Saída', auto_now=False)
+    checkout = models.DateTimeField(
+        'Saída',
+        auto_now=False,
+        null=True,
+        blank=True
+    )
     forma_pagto = models.CharField(
         'forma de pagto',
         max_length=2,
