@@ -25,7 +25,17 @@ quartos_patterns = [
 ]
 
 pre_reserva_patterns = [
-    path('pre-reserva/', v.pre_reserva, name='pre_reserva'),
+    path('', v.pre_reserva, name='pre_reserva'),
+    path(
+        'pessoas/add/',
+        v.pre_reserva_pessoa_add,
+        name='pre_reserva_pessoas_add'
+    ),
+    path(
+        'reserva/add/',
+        v.pre_reserva_reserva_add,
+        name='pre_reserva_reserva_add'
+    ),
 ]
 
 reserva_patterns = [

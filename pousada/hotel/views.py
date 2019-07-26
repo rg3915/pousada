@@ -67,6 +67,35 @@ def pessoas_add(request):
     return HttpResponseRedirect(resolve_url('hotel:pessoas'))
 
 
+def pre_reserva_pessoa_add(request):
+    form = PessoaForm(request.POST or None)
+    template_name = 'hotel/pessoas_add.html'
+    if request.method == 'POST':
+        quarto_pk = request.session['quarto']
+        quarto = Quarto.objects.get(pk=quarto_pk)
+        # Salvando os dados da Pessoa.
+        if form.is_valid():
+            obj = form.save()  # salva a Pessoa
+            # Fazer a reserva do Quarto com a pessoa cadatrada.
+            request.session['pessoa'] = obj.pk  # obj.pk é o pk da Pessoa.
+            url = 'hotel:pre_reserva_reserva_add'
+            return HttpResponseRedirect(resolve_url(url))
+    else:
+        # Para pegar dados que vem junto com a interrogação na url,
+        # usamos request.GET.get('chave').
+        response = request.GET.get('quarto')
+        # O response vem com o pk do quarto.
+        quarto = Quarto.objects.get(pk=response)
+        request.session['quarto'] = response
+    context = {'form': form, 'quarto': quarto}
+    return render(request, template_name, context)
+
+
+def pre_reserva_reserva_add(request):
+    template_name = 'hotel/reservas_add.html'
+    return render(request, template_name)
+
+
 @login_required
 def quartos(request):
     quartos = Quarto.objects.all()
