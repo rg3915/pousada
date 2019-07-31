@@ -28,7 +28,7 @@
           </td>
           <td>
             {% if object.reservado %}
-              <button class="btn btn-warning">Fazer checkout</button>
+              <a href="{% url 'hotel:checkout' object.reserva.pk %}" class="btn btn-warning">Fazer checkout</a>
             {% else %}
               <a class="btn btn-primary"
                  href="{% url 'hotel:pre_reserva_pessoas_add' %}?quarto={{object.pk}}">Reservar</a>

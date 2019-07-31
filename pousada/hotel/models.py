@@ -47,12 +47,19 @@ class Quarto(models.Model):
 
     def reservado(self):
         # Verifica se o quarto está reservado ou não.
-        # Retorna os quartos reservados
         esta_reservado = Reserva.objects.filter(
             quarto=self, checkout__isnull=True).first()
         if esta_reservado:
             return True
         return False
+
+    def reserva(self):
+        # Se o quarto estiver reservado, então
+        # retorna os quartos reservados.
+        reserva = Reserva.objects.filter(
+            quarto=self, checkout__isnull=True).first()
+        if reserva:
+            return reserva
 
 
 class Parametros(models.Model):
