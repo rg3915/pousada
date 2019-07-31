@@ -130,8 +130,27 @@ def checkout(request, pk):
 
 
 def checkout_final(request, pk):
+    # O pk é o pk da reserva.
+    reserva = Reserva.objects.get(pk=pk)
+    dias_hospedado = (reserva.checkout - reserva.checkin).days
+    saldo_devedor = dias_hospedado * reserva.quarto.valor_diaria
+
+    if request.method == 'POST':
+        # valor_diaria seria o valor total (final) da reserva,
+        # após checkout.
+        reserva.valor_diaria = saldo_devedor
+        pago = request.POST.get('pago')
+        if pago == 'on':
+            reserva.pago = True
+        else:
+            reserva.pago = False
+        reserva.save()
+        return HttpResponseRedirect(resolve_url('hotel:reserva'))
+    else:
+        context = {'saldo_devedor': saldo_devedor}
+
     template_name = 'hotel/checkout_final.html'
-    return render(request, template_name)
+    return render(request, template_name, context)
 
 
 @login_required

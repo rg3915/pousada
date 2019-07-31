@@ -4,5 +4,16 @@
 
   <h1>checkout_final</h1>
 
+  <h2>
+  Saldo devedor da diária
+  <span class="lead">R$ {{ saldo_devedor }}</span>
+  </h2>
+
+  <form action="." method="POST">
+    {% csrf_token %}
+    <input type="checkbox" name="pago" class="form-control" id="id_pago">
+    <button type="submit" class="btn btn-primary">Finalizar</button>
+  </form>
+
 
 {% endblock %}
