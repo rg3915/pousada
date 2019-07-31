@@ -102,6 +102,7 @@ def pre_reserva_reserva_add(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
+            return HttpResponseRedirect(resolve_url('hotel:reserva'))
     else:
         response_pessoa = request.session['pessoa']
         response_quarto = request.session['quarto']
