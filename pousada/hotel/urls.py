@@ -36,6 +36,8 @@ pre_reserva_patterns = [
         v.pre_reserva_reserva_add,
         name='pre_reserva_reserva_add'
     ),
+    path('checkout/<int:pk>/', v.checkout, name='checkout'),
+    path('checkout/<int:pk>/final/', v.checkout_final, name='checkout_final'),
 ]
 
 reserva_patterns = [

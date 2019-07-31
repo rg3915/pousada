@@ -26,11 +26,17 @@
             {% if object.checkout %}
               {{ object.checkout|date:"d/m/y" }}
             {% else %}
-              <button class="btn btn-warning">Fazer checkout</button>
+            <a href="{% url 'hotel:checkout' object.pk %}" class="btn btn-warning">Fazer checkout</a>
             {% endif %}
           </td>
           <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
-          <td>{{ object.pago }}</td>
+          <td>
+            {% if object.checkout %}
+              <i class="fa fa-check" style="color: green"></i>
+            {% else %}
+              <i class="fa fa-close" style="color: red"></i>
+            {% endif %}
+          </td>
         </tr>
       </a>
     </li>

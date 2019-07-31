@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url
+from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import CreateView
 from .models import Pessoa, Quarto, Reserva
 from .forms import PessoaForm, QuartoForm, ReservaForm
@@ -115,6 +117,21 @@ def pre_reserva_reserva_add(request):
         'valor_diaria': response_valor_diaria,
     }
     return render(request, template_name, context)
+
+
+def checkout(request, pk):
+    reserva = Reserva.objects.get(pk=pk)
+    reserva.checkout = timezone.now()
+    reserva.save()
+
+    kw = {'pk': pk}
+    url = 'hotel:checkout_final'
+    return HttpResponseRedirect(reverse(url, kwargs=kw))
+
+
+def checkout_final(request, pk):
+    template_name = 'hotel/checkout_final.html'
+    return render(request, template_name)
 
 
 @login_required
