@@ -5,7 +5,7 @@ import math
 
 class Pessoa(models.Model):
     nome = models.CharField(max_length=100)
-    cpf = models.CharField(max_length=200)
+    cpf = models.CharField(max_length=14)
     cidade = models.CharField(max_length=200, null=True, blank=True)
     endereco = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField()
