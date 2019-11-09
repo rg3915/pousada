@@ -13,52 +13,36 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+
   {% block head %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   {% endblock head %}
 
     <title>Pousada</title>
-
-    <style>
-      /* Remove padding */
-      .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-      }
-      /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-          margin-bottom: 0;
-          border-radius: 0;
-        }
-        
-      /* Add a gray background color and some padding to the footer */
-      footer {
-        background-color: #f2f2f2;
-        padding: 25px;
-      }
-    </style>
 
     {% block style %}{% endblock style %}
 
 </head>
 <body>
-<div class="container-fluid">
 
-  {% if request.user.is_authenticated %}
-    {% include "includes/menu_services.html" %}
-  {% else %}
-    {% include "includes/menu.html" %}
-  {% endif %}
+  <div>
 
-  {% block content %}{% endblock content %}
+    {% if request.user.is_authenticated %}
+      {% include "includes/menu_services.html" %}
+    {% else %}
+      {% include "includes/menu.html" %}
+    {% endif %}
 
-  {% include "includes/footer.html" %}
+    {% block content %}{% endblock content %}
 
-  {% block js %}{% endblock js %}
+    {% include "includes/footer.html" %}
 
-</div>
+    {% block js %}{% endblock js %}
+
+  </div>
+
 </body>
 </html>
