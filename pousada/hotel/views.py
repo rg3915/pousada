@@ -11,7 +11,13 @@ from .forms import PessoaForm, QuartoForm, ReservaForm
 
 @login_required
 def dashboard(request):
-    return render(request, 'hotel/dashboard.html')
+    clientes = Pessoa.objects.all()
+    reservas = Reserva.objects.all()
+    context = {
+        'clientes': clientes,
+        'reservas': reservas,
+    }
+    return render(request, 'hotel/dashboard.html', context)
 
 
 @login_required
