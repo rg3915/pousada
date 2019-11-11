@@ -33,20 +33,20 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nome</th>
-        <th scope="col">CPF</th>
-        <th scope="col">Endereço</th>
-        <th scope="col">Cidade</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Telefone</th>
-        <th>Ações</th>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Endereço</th>
+        <th>Cidade</th>
+        <th>Estado</th>
+        <th>Telefone</th>
+        <th class="text-center">Ações</th>
       </tr>
     </thead>
     <tbody>
       {% for pessoa in pessoas %}
       <tr>
-        <th scope="row">{{pessoa.id}}</th>
+        <th>{{ pessoa.id }}</th>
         <td>
           <a data-toggle="modal" href="#myPessoa_{{pessoa.pk}}">{{ pessoa.nome }}</a>
           <!-- Modal -->
@@ -79,7 +79,7 @@
         <td>{{ pessoa.cidade|default:"---" }}</td>
         <td>{{ pessoa.estado|default:"---" }}</td>
         <td>{{ pessoa.telefone }}</td>
-        <td>
+        <td class="text-center">
           <a class="edit-pessoa" 
              data-toggle="modal" 
              data-id="{{ pessoa.id }}"

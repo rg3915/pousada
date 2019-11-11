@@ -1,34 +1,219 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/container.css' %}">
+
+  <style>
+    span.required:after {
+      content: "*";
+      color: red;
+    }
+  </style>
+{% endblock style %}
+
 {% block content %}
-  <h1>{{ message }}</h1>
-  <a href="{% url 'hotel:quartos_add' %}" class="btn btn-primary">Cadastrar</a>
+
+<div class="my-container" style="padding-top: 10px;">
+  <!-- Campo de Busca -->
+  <div style="margin: 10px 0">
+    <div class="col-sm-12">
+      <form action="" method="GET" class="form-inline">
+        <input id="id_search" name="search" class="form-control" type="text" placeholder="Busca" />
+        <button type="submit" class="btn btn-primary ml-1">Buscar</button>
+        <a href="." class="ml-2">Limpar</a>
+      </form>
+    </div>
+  </div>
+  <div class="pull-right">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myPessoaAdd">Cadastrar</button>
+  </div>
   <h1>Lista de Quartos</h1>
   <table class="table">
-    <thead class="thead-dark">
+    <thead>
       <tr>
-        <th scope="col">Número</th>
-        <th scope="col">Título</th>
-        <th scope="col">Padrão</th>
-        <th scope="col">Diária</th>
-        <th scope="col">Ações</th>
+        <th>Número</th>
+        <th>Título</th>
+        <th>Padrão</th>
+        <th>Diária</th>
+        <th class="text-center">Ações</th>
       </tr>
     </thead>
     <tbody>
       {% for quarto in quartos %}
-        <tr>
-          <td style="width: 100px;">{{quarto.numero}}</td>
-          <td>{{quarto.titulo}}</td>
-          <td>
-            <!-- <a href="{ url 'core_quartos' id=quarto.id cmd=1 %}">Update</a>  -->
-            <!-- <a href="{ url 'core_quartos' id=quarto.id cmd=2 %}">Delete</a> -->
-            {{quarto.padrao}}
-          </td>
-          <td style="width: 150px;">R$ <span class="pull-right">{{quarto.valor_diaria}}</span></td>
-          <td></td>
-        </tr>
-      </a>
-    </li>
-  {% endfor %}
-</tbody>
-</table>
+      <tr>
+        <th>{{ quarto.id }}</th>
+        <td>
+          <a data-toggle="modal" href="#myQuarto{{quarto.pk}}">{{ quarto.titulo }}</a>
+          <!-- Modal -->
+          <div class="modal fade" id="myPessoa_{{quarto.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabelPessoa">Cliente</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">Nome: {{ quarto.nome }}</li>
+                    <li class="list-group-item">CPF: {{ quarto.cpf }}</li>
+                    <li class="list-group-item">Endereço: {{ quarto.endereco|default:"---" }}</li>
+                    <li class="list-group-item">Cidade: {{ quarto.cidade|default:"---" }}</li>
+                    <li class="list-group-item">Estado: {{ quarto.estado|default:"---" }}</li>
+                    <li class="list-group-item">Telefone: {{ quarto.telefone }}</li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>{{ quarto.padrao }}</td>
+        <td style="width: 150px;">R$ <span class="pull-right">{{ quarto.valor_diaria }}</span></td>
+        <td class="text-center">
+          <a class="edit-pessoa" 
+             data-toggle="modal" 
+             data-id="{{ quarto.id }}"
+             data-nome="{{ quarto.nome }}"
+             data-cpf="{{ quarto.cpf }}"
+             data-cidade="{{ quarto.cidade }}"
+             data-estado="{{ quarto.estado }}"
+             data-endereco="{{ quarto.endereco }}"
+             data-email="{{ quarto.email }}"
+             data-telefone="{{ quarto.telefone }}"
+             href="#myModalEdit_{{quarto.pk}}">
+            <i class="fa fa-edit"></i>
+          </a>
+          <!-- Modal -->
+          <div class="modal fade" id="myModalEdit_{{quarto.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form action="{% url 'hotel:pessoas_edit' quarto.pk %}" method="POST">
+                  <div class="modal-body">
+                    {% csrf_token %}
+                    <input id="id_pk" name="pk" class="form-control" type="hidden" value="{{ quarto.pk }}" />
+                    {% for field in form.visible_fields %}
+                      <div class="form-group{% if field.errors %} has-error {% endif %}">
+                        <label for="{{ field.id_for_label }}">
+                          {% if field.field.required %}
+                          <span class="required">{{ field.label }} </span>
+                          {% else %}
+                          {{ field.label }}
+                          {% endif %}
+                        </label>
+                        {% render_field field class="form-control" %}
+                        {% for error in field.errors %}
+                        <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <a data-toggle="modal" data-target="#myModal_{{quarto.pk}}">
+            <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
+          </a>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal_{{quarto.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  Deseja deletar <b>{{ quarto.nome }}</b>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <a href="{% url 'hotel:pessoas_delete' quarto.pk %}" type="button" class="btn btn-danger">Deletar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </td>
+      </tr>
+      </li>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myPessoaAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoaAdd">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabelPessoaAdd">Cadastrar</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form action="{% url 'hotel:pessoas_add' %}" method="POST">
+        <div class="modal-body">
+          {% csrf_token %}
+          {% for field in form.visible_fields %}
+          <div class="form-group{% if field.errors %} has-error {% endif %}">
+            <label for="{{ field.id_for_label }}">
+              {% if field.field.required %}
+              <span class="required">{{ field.label }} </span>
+              {% else %}
+              {{ field.label }}
+              {% endif %}
+            </label>
+            {% render_field field class="form-control" %}
+            {% for error in field.errors %}
+            <span class="text-muted">{{ error }}</span>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+
+{% block js %}
+
+  <script>
+    $('.edit-pessoa').on('click', function(event) {
+      event.preventDefault();
+      let id = $(this).data('id')
+      let modalEdit = $('#myModalEdit_'+id)
+      let nome = $(this).data('nome')
+      let cpf = $(this).data('cpf')
+      let cidade = $(this).data('cidade')
+      let estado = $(this).data('estado')
+      let endereco = $(this).data('endereco')
+      let email = $(this).data('email')
+      let telefone = $(this).data('telefone')
+      modalEdit.find('#id_nome').val(nome)
+      modalEdit.find('#id_cpf').val(cpf)
+      modalEdit.find('#id_cidade').val(cidade)
+      modalEdit.find('#id_estado').val(estado)
+      modalEdit.find('#id_endereco').val(endereco)
+      modalEdit.find('#id_email').val(email)
+      modalEdit.find('#id_telefone').val(telefone)
+    });
+  </script>
+
+{% endblock js %}

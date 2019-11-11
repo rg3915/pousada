@@ -45,13 +45,6 @@ def pessoas(request):
 
 
 @login_required
-def pessoas_detail(request, pk):
-    pessoa = Pessoa.objects.get(pk=pk)
-    data = {'pessoa': pessoa}
-    return render(request, 'hotel/pessoas_detail.html', data)
-
-
-@login_required
 def pessoas_edit(request, pk):
     pessoa = Pessoa.objects.get(pk=pk)
     form = PessoaForm(request.POST or None, instance=pessoa)
@@ -163,6 +156,15 @@ def checkout_final(request, pk):
 def quartos(request):
     quartos = Quarto.objects.all()
     template_name = 'hotel/quartos.html'
+
+    # Search
+    search = request.GET.get('search')
+    if search:
+        quartos = quartos.filter(
+            Q(titulo__icontains=search,) |
+            Q(padrao__nome__icontains=search,)
+        )
+
     context = {'quartos': quartos}
     return render(request, template_name, context)
 
@@ -173,16 +175,6 @@ def quartos(request):
 #     template_name = 'hotel/quartos_add.html'
 #     context = {'form': form}
 #     return render(request, template_name, context)
-
-class QuartosAdd(CreateView):
-    model = Quarto
-    form_class = QuartoForm
-    template_name = 'hotel/quartos_add.html'
-
-
-# @login_required
-# def quartos_detail(request):
-#     pass
 
 
 # @login_required
@@ -218,40 +210,10 @@ class ReservaAdd(CreateView):
 
 
 # @login_required
-# def reserva_detail(request):
-#     pass
-
-
-# @login_required
 # def reserva_edit(request):
 #     pass
 
 
 # @login_required
 # def reserva_delete(request):
-#     pass
-
-
-@login_required
-def mensalistas(request):
-    return render(request, 'hotel/mensalistas.html')
-
-
-# @login_required
-# def mensalistas_add(request):
-#     pass
-
-
-# @login_required
-# def mensalistas_detail(request):
-#     pass
-
-
-# @login_required
-# def mensalistas_edit(request):
-#     pass
-
-
-# @login_required
-# def mensalistas_delete(request):
 #     pass
