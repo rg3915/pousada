@@ -196,8 +196,10 @@ def quartos_edit(request, pk):
 
 
 @login_required
-def quartos_delete(request):
-    pass
+def quartos_delete(request, pk):
+    quarto = Quarto.objects.get(pk=pk)
+    quarto.delete()
+    return HttpResponseRedirect(resolve_url('hotel:quartos'))
 
 
 # @login_required
