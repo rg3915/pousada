@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.urls import reverse
 from django.utils import timezone
@@ -91,17 +91,12 @@ def pre_reserva(request):
 
 def pre_reserva_pessoa_add(request):
     form = PessoaForm(request.POST or None)
-    if request.method == 'POST':
-        quarto_pk = request.POST['quarto_pk']
-        print(quarto_pk)
-        # quarto = Quarto.objects.get(pk=quarto_pk)
+    if request.method == 'POST' and request.is_ajax():
         # Salvando os dados da Pessoa.
         if form.is_valid():
             obj = form.save()  # salva a Pessoa
-            # Fazer a reserva do Quarto com a pessoa cadastrada.
-            request.session['pessoa'] = obj.pk  # obj.pk é o pk da Pessoa.
-            url = 'hotel:pre_reserva_reserva_add'
-            return HttpResponseRedirect(resolve_url(url))
+            response = {'pessoa': obj.pk}
+            return JsonResponse(response)
 
 
 def pre_reserva_reserva_add(request):

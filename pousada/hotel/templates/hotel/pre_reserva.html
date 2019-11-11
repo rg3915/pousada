@@ -89,7 +89,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-primary salvar" data-id="{{ object.id }}">Salvar</button>
                   </div>
                 </form>
               </div>
@@ -106,3 +106,31 @@
   </table>
 </div>
 {% endblock %}
+
+{% block js %}
+
+<script>
+  function clearForms()
+  {
+      $(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+      $(':checkbox, :radio').prop('checked', false);
+  }
+
+  $('.salvar').on('click', function() {
+    let form = $(this).closest('form')
+    let url = form.attr('action');
+    let id = $(this).data('id');
+    let postData = $(form).serialize();
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: postData,
+      success: function(response) {
+        $('#myModalReservar_'+id).modal('hide')
+        clearForms()
+      }
+    })
+  });
+</script>
+
+{% endblock js %}
