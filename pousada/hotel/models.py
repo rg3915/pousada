@@ -13,6 +13,11 @@ class Pessoa(models.Model):
     email = models.EmailField()
     telefone = models.CharField(max_length=20)
 
+    class Meta:
+        ordering = ('nome',)
+        verbose_name = 'pessoa'
+        verbose_name_plural = 'pessoas'
+
     def __str__(self):
         return self.nome
 
