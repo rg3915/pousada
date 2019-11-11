@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="pull-right">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#myPessoaAdd">Cadastrar</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myQuartoAdd">Cadastrar</button>
   </div>
   <h1>Lista de Quartos</h1>
   <table class="table">
@@ -43,7 +43,7 @@
     <tbody>
       {% for quarto in quartos %}
       <tr>
-        <th>{{ quarto.id }}</th>
+        <th>{{ quarto.numero }}</th>
         <td>
           <a data-toggle="modal" href="#myQuarto_{{quarto.pk}}">{{ quarto.titulo }}</a>
           <!-- Modal -->
@@ -56,10 +56,11 @@
                 </div>
                 <div class="modal-body">
                   <ul class="list-group">
-                    <li class="list-group-item">Número: {{ quarto.id }}</li>
+                    <li class="list-group-item">Número: {{ quarto.numero }}</li>
                     <li class="list-group-item">Título: {{ quarto.titulo }}</li>
                     <li class="list-group-item">Padrão: {{ quarto.padrao }}</li>
                     <li class="list-group-item">Diária: R$ {{ quarto.valor_diaria }}</li>
+                    <li class="list-group-item">Observações: {{ quarto.observacoes }}</li>
                   </ul>
                 </div>
                 <div class="modal-footer">
@@ -153,14 +154,14 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myPessoaAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelQuartoAdd">
+<div class="modal fade" id="myQuartoAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelQuartoAdd">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabelQuartoAdd">Cadastrar</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
-      <form action="{% url 'hotel:pessoas_add' %}" method="POST">
+      <form action="{% url 'hotel:quartos_add' %}" method="POST">
         <div class="modal-body">
           {% csrf_token %}
           {% for field in form.visible_fields %}

@@ -156,6 +156,7 @@ def checkout_final(request, pk):
 def quartos(request):
     quartos = Quarto.objects.all()
     template_name = 'hotel/quartos.html'
+    form = QuartoForm()
 
     # Search
     search = request.GET.get('search')
@@ -165,16 +166,19 @@ def quartos(request):
             Q(padrao__nome__icontains=search,)
         )
 
-    context = {'quartos': quartos}
+    context = {
+        'quartos': quartos,
+        'form': form,
+    }
     return render(request, template_name, context)
 
 
-# @login_required
-# def quartos_add(request):
-#     form = QuartoForm(request.POST)
-#     template_name = 'hotel/quartos_add.html'
-#     context = {'form': form}
-#     return render(request, template_name, context)
+@login_required
+def quartos_add(request):
+    form = QuartoForm(request.POST)
+    if form.is_valid():
+        form.save()
+    return HttpResponseRedirect(resolve_url('hotel:quartos'))
 
 
 # @login_required
