@@ -1,4 +1,3 @@
 -r base.txt
-mixer==6.1.3
 ipython
 ipdb
