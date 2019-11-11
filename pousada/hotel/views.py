@@ -68,29 +68,40 @@ def pessoas_add(request):
     return HttpResponseRedirect(resolve_url('hotel:pessoas'))
 
 
+@login_required
+def pre_reserva(request):
+    quartos = Quarto.objects.all()
+    template_name = 'hotel/pre_reserva.html'
+    form = PessoaForm()
+
+    # Search
+    search = request.GET.get('search')
+    if search:
+        quartos = quartos.filter(
+            Q(titulo__icontains=search,) |
+            Q(padrao__nome__icontains=search,)
+        )
+
+    context = {
+        'object_list': quartos,
+        'form': form,
+    }
+    return render(request, template_name, context)
+
+
 def pre_reserva_pessoa_add(request):
     form = PessoaForm(request.POST or None)
-    template_name = 'hotel/pessoas_add.html'
     if request.method == 'POST':
-        quarto_pk = request.session['quarto']
-        quarto = Quarto.objects.get(pk=quarto_pk)
+        quarto_pk = request.POST['quarto_pk']
+        print(quarto_pk)
+        # quarto = Quarto.objects.get(pk=quarto_pk)
         # Salvando os dados da Pessoa.
         if form.is_valid():
             obj = form.save()  # salva a Pessoa
-            # Fazer a reserva do Quarto com a pessoa cadatrada.
+            # Fazer a reserva do Quarto com a pessoa cadastrada.
             request.session['pessoa'] = obj.pk  # obj.pk é o pk da Pessoa.
             url = 'hotel:pre_reserva_reserva_add'
             return HttpResponseRedirect(resolve_url(url))
-    else:
-        # Para pegar dados que vem junto com a interrogação na url,
-        # usamos request.GET.get('chave').
-        response = request.GET.get('quarto')
-        # O response vem com o pk do quarto.
-        quarto = Quarto.objects.get(pk=response)
-        request.session['quarto'] = response
-        request.session['valor_diaria'] = float(quarto.valor_diaria)
-    context = {'form': form, 'quarto': quarto}
-    return render(request, template_name, context)
 
 
 def pre_reserva_reserva_add(request):
@@ -105,9 +116,10 @@ def pre_reserva_reserva_add(request):
             form.save()
             return HttpResponseRedirect(resolve_url('hotel:reserva'))
     else:
-        response_pessoa = request.session['pessoa']
-        response_quarto = request.session['quarto']
-        response_valor_diaria = request.session['valor_diaria']
+        # response_pessoa = request.session['pessoa']
+        # response_quarto = request.session['quarto']
+        # response_valor_diaria = request.session['valor_diaria']
+        pass
 
     context = {
         'form': form,
@@ -200,14 +212,6 @@ def quartos_delete(request, pk):
     quarto = Quarto.objects.get(pk=pk)
     quarto.delete()
     return HttpResponseRedirect(resolve_url('hotel:quartos'))
-
-
-# @login_required
-def pre_reserva(request):
-    quartos = Quarto.objects.all()
-    context = {'object_list': quartos}
-    template_name = 'hotel/pre_reserva.html'
-    return render(request, template_name, context)
 
 
 @login_required
