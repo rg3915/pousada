@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponseRedirect
@@ -73,6 +74,7 @@ def pre_reserva(request):
     quartos = Quarto.objects.all()
     template_name = 'hotel/pre_reserva.html'
     form = PessoaForm()
+    form_reserva = ReservaForm()
 
     # Search
     search = request.GET.get('search')
@@ -85,6 +87,7 @@ def pre_reserva(request):
     context = {
         'object_list': quartos,
         'form': form,
+        'form_reserva': form_reserva,
     }
     return render(request, template_name, context)
 
@@ -99,30 +102,35 @@ def pre_reserva_pessoa_add(request):
             return JsonResponse(response)
 
 
+def convert_date(date):
+    if date:
+        return datetime.strptime(date, '%d/%m/%Y')
+
+
 def pre_reserva_reserva_add(request):
     form = ReservaForm(request.POST or None)
-    template_name = 'hotel/reservas_add.html'
-    response_pessoa = None
-    response_quarto = None
-    response_valor_diaria = None
+    if request.method == 'POST' and request.is_ajax():
+        quarto_pk = request.POST.get('quarto_pk')
+        pessoa_pk = request.POST.get('pessoa_pk')
+        valor_diaria = request.POST.get('valor_diaria')
+        checkin = request.POST.get('checkin')
+        pre_checkout = request.POST.get('pre_checkout')
+        forma_pagto = request.POST.get('forma_pagto')
 
-    if request.method == 'POST':
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(resolve_url('hotel:reserva'))
-    else:
-        # response_pessoa = request.session['pessoa']
-        # response_quarto = request.session['quarto']
-        # response_valor_diaria = request.session['valor_diaria']
-        pass
-
-    context = {
-        'form': form,
-        'quarto': response_quarto,
-        'pessoa': response_pessoa,
-        'valor_diaria': response_valor_diaria,
-    }
-    return render(request, template_name, context)
+            quarto = Quarto.objects.get(pk=quarto_pk)
+            nome_cliente = Pessoa.objects.get(pk=pessoa_pk)
+            obj = Reserva(
+                quarto=quarto,
+                nome_cliente=nome_cliente,
+                valor_diaria=valor_diaria,
+                checkin=convert_date(checkin),
+                pre_checkout=convert_date(pre_checkout),
+                forma_pagto=forma_pagto,
+            )
+            obj.save()
+            response = {'response': 'OK'}
+            return JsonResponse(response)
 
 
 def checkout(request, pk):

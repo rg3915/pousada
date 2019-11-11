@@ -20,7 +20,14 @@ class ReservaForm(ModelForm):
 
     class Meta:
         model = Reserva
-        fields = '__all__'
+        fields = (
+            'valor_diaria',
+            'checkin',
+            'pre_checkout',
+            'checkout',
+            'forma_pagto',
+            'pago',
+        )
 
 
 class MensalistaForm(ModelForm):

@@ -57,14 +57,15 @@
           <a href="{% url 'hotel:checkout' object.reserva.pk %}" class="btn btn-warning">Fazer checkout</a>
           {% else %}
 
-          <a class="btn btn-primary" data-toggle="modal" href="#myModalReservar_{{object.id}}">Reservar</a>
+          <a class="btn btn-primary" data-toggle="modal" href="#myModalPessoa_{{object.id}}">Reservar</a>
+          <a id="a_{{object.id}}" class="btn btn-primary" data-toggle="modal" href="#myModalReserva_{{object.id}}" style="display:none">Reservar 2</a>
 
-          <!-- Modal -->
-          <div class="modal fade" id="myModalReservar_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelReservar">
+          <!-- Modal Pessoa -->
+          <div class="modal fade" id="myModalPessoa_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabelReservar">Cadastrar Cliente</h4>
+                  <h4 class="modal-title" id="myModalLabelPessoa">Cadastrar Cliente</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="{% url 'hotel:pre_reserva_pessoas_add' %}" method="POST">
@@ -96,6 +97,45 @@
             </div>
           </div>
 
+          <!-- Modal Reserva -->
+          <div class="modal fade" id="myModalReserva_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelReservar">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabelReservar">Fazer Reserva</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form action="{% url 'hotel:pre_reserva_reserva_add' %}" method="POST">
+                  <div class="modal-body text-left">
+                    {% csrf_token %}
+                    <input id="id_quarto_pk_{{object.id}}" name="quarto_pk" class="form-control" type="hidden" value="{{ object.pk }}" />
+                    <input id="id_pessoa_pk_{{object.id}}" name="pessoa_pk" class="form-control" type="hidden" value="" />
+                    <input id="id_valor_diaria_{{object.id}}" name="valor_diaria_pk" class="form-control" type="hidden" value="{{ object.valor_diaria }}" />
+                    {% for field in form_reserva.visible_fields %}
+                      <div class="form-group{% if field.errors %} has-error {% endif %}">
+                        <label for="{{ field.id_for_label }}">
+                          {% if field.field.required %}
+                          <span class="required">{{ field.label }} </span>
+                          {% else %}
+                          {{ field.label }}
+                          {% endif %}
+                        </label>
+                        {% render_field field class="form-control" %}
+                        {% for error in field.errors %}
+                        <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary salvarReserva" data-id="{{ object.id }}">Salvar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
           {% endif %}
         </td>
       </tr>
@@ -110,6 +150,9 @@
 {% block js %}
 
 <script>
+
+  let id;
+
   function clearForms()
   {
       $(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
@@ -119,18 +162,73 @@
   $('.salvar').on('click', function() {
     let form = $(this).closest('form')
     let url = form.attr('action');
-    let id = $(this).data('id');
+    id = $(this).data('id');
     let postData = $(form).serialize();
     $.ajax({
       url: url,
       type: 'POST',
       data: postData,
       success: function(response) {
-        $('#myModalReservar_'+id).modal('hide')
+        $('#myModalPessoa_'+id).modal('hide')
         clearForms()
+        // $('#myModalReserva_'+id).modal('show')
+        $('#a_'+id).click() /* Abre o segundo modal */
+        $('#id_pessoa_pk_'+id).val(response.pessoa)
+
+        // Removendo autocomplete de data
+        $('#id_checkin').attr('autocomplete', 'off');
+        $("#id_pre_checkout").attr('autocomplete', 'off');
+        $("#id_checkout").attr('autocomplete', 'off');
+
+        $( function() {
+          $("#id_checkin").datepicker({ dateFormat: 'dd/mm/yy' });
+          $("#id_pre_checkout").datepicker({ dateFormat: 'dd/mm/yy' });
+          $("#id_checkout").datepicker({ dateFormat: 'dd/mm/yy' });
+        });
       }
     })
   });
+
+  $('#id_pre_checkout').on('change', function() {
+    var start = $('#id_checkin').val();
+    var end = $(this).val();
+    // Convert date to default format
+    var dayStart = start.split('/')[0]
+    var monthStart = start.split('/')[1]
+    var yearStart = start.split('/')[2]
+    var startDateFormated = yearStart + '-' + monthStart + '-' + dayStart
+    var dayEnd = end.split('/')[0]
+    var monthEnd = end.split('/')[1]
+    var yearEnd = end.split('/')[2]
+    var endDateFormated = yearEnd + '-' + monthEnd + '-' + dayEnd
+
+    // end - start returns difference in milliseconds
+    var startDate = new Date(startDateFormated);
+    var endDate = new Date(endDateFormated);
+    var millisecondsPerDay = 1000 * 60 * 60 * 24;
+    var millisBetween = endDate.getTime() - startDate.getTime();
+    var days = millisBetween / millisecondsPerDay;
+    // get days
+    var valor = $('#id_valor_diaria_'+id).val();
+    var valor_total = parseInt(days) * parseInt(valor);
+    $('#id_valor_diaria').val(valor_total);
+  });
+
+  $('.salvarReserva').on('click', function() {
+    let formR = $(this).closest('form')
+    let urlR = formR.attr('action');
+    id = $(this).data('id');
+    let postDataR = $(formR).serialize();
+    $.ajax({
+      url: urlR,
+      type: 'POST',
+      data: postDataR,
+      success: function(response) {
+        location.reload()
+      }
+    })
+  });
+
 </script>
 
 {% endblock js %}
