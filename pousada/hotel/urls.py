@@ -18,8 +18,8 @@ pessoas_patterns = [
 quartos_patterns = [
     path('quartos/', v.quartos, name='quartos'),
     path('quartos/add/', v.quartos_add, name='quartos_add'),
-    # path('quartos/<int:pk>/edit', v.quartos_edit, name='quartos_edit'),
-    # path('quartos/<int:pk>/delete', v.quartos_delete, name='quartos_delete'),
+    path('quartos/<int:pk>/edit', v.quartos_edit, name='quartos_edit'),
+    path('quartos/<int:pk>/delete', v.quartos_delete, name='quartos_delete'),
 ]
 
 pre_reserva_patterns = [

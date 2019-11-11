@@ -98,11 +98,11 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                  <h4 class="modal-title" id="myModalLabel">Editar</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="{% url 'hotel:pessoas_edit' pessoa.pk %}" method="POST">
-                  <div class="modal-body">
+                  <div class="modal-body text-left">
                     {% csrf_token %}
                     <input id="id_pk" name="pk" class="form-control" type="hidden" value="{{ pessoa.pk }}" />
                     {% for field in form.visible_fields %}

@@ -73,16 +73,14 @@
         <td>{{ quarto.padrao }}</td>
         <td style="width: 150px;">R$ <span class="pull-right">{{ quarto.valor_diaria }}</span></td>
         <td class="text-center">
-          <a class="edit-pessoa" 
+          <a class="edit-quarto" 
              data-toggle="modal" 
              data-id="{{ quarto.id }}"
-             data-nome="{{ quarto.nome }}"
-             data-cpf="{{ quarto.cpf }}"
-             data-cidade="{{ quarto.cidade }}"
-             data-estado="{{ quarto.estado }}"
-             data-endereco="{{ quarto.endereco }}"
-             data-email="{{ quarto.email }}"
-             data-telefone="{{ quarto.telefone }}"
+             data-numero="{{ quarto.numero }}"
+             data-titulo="{{ quarto.titulo }}"
+             data-padrao="{{ quarto.padrao.id }}"
+             data-diaria="{{ quarto.valor_diaria }}"
+             data-observacoes="{{ quarto.observacoes }}"
              href="#myModalEdit_{{quarto.pk}}">
             <i class="fa fa-edit"></i>
           </a>
@@ -91,11 +89,11 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                  <h4 class="modal-title" id="myModalLabel">Editar</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form action="{% url 'hotel:pessoas_edit' quarto.pk %}" method="POST">
-                  <div class="modal-body">
+                <form action="{% url 'hotel:quartos_edit' quarto.pk %}" method="POST">
+                  <div class="modal-body text-left">
                     {% csrf_token %}
                     <input id="id_pk" name="pk" class="form-control" type="hidden" value="{{ quarto.pk }}" />
                     {% for field in form.visible_fields %}
@@ -194,24 +192,20 @@
 {% block js %}
 
   <script>
-    $('.edit-pessoa').on('click', function(event) {
+    $('.edit-quarto').on('click', function(event) {
       event.preventDefault();
       let id = $(this).data('id')
       let modalEdit = $('#myModalEdit_'+id)
-      let nome = $(this).data('nome')
-      let cpf = $(this).data('cpf')
-      let cidade = $(this).data('cidade')
-      let estado = $(this).data('estado')
-      let endereco = $(this).data('endereco')
-      let email = $(this).data('email')
-      let telefone = $(this).data('telefone')
-      modalEdit.find('#id_nome').val(nome)
-      modalEdit.find('#id_cpf').val(cpf)
-      modalEdit.find('#id_cidade').val(cidade)
-      modalEdit.find('#id_estado').val(estado)
-      modalEdit.find('#id_endereco').val(endereco)
-      modalEdit.find('#id_email').val(email)
-      modalEdit.find('#id_telefone').val(telefone)
+      let numero = $(this).data('numero')
+      let titulo = $(this).data('titulo')
+      let padrao = $(this).data('padrao')
+      let diaria = $(this).data('diaria').replace(',', '.')
+      let observacoes = $(this).data('observacoes')
+      modalEdit.find('#id_numero').val(numero)
+      modalEdit.find('#id_titulo').val(titulo)
+      modalEdit.find('#id_padrao').val(padrao)
+      modalEdit.find('#id_valor_diaria').val(diaria)
+      modalEdit.find('#id_observacoes').val(observacoes)
     });
   </script>
 

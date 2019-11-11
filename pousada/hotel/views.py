@@ -158,6 +158,11 @@ def quartos(request):
     template_name = 'hotel/quartos.html'
     form = QuartoForm()
 
+    pk = request.GET.get('pk')
+    if pk:
+        quarto = Quarto.objects.get(pk=pk)
+        form = QuartoForm(request.POST or None, instance=quarto)
+
     # Search
     search = request.GET.get('search')
     if search:
@@ -181,14 +186,18 @@ def quartos_add(request):
     return HttpResponseRedirect(resolve_url('hotel:quartos'))
 
 
-# @login_required
-# def quartos_edit(request):
-#     pass
+@login_required
+def quartos_edit(request, pk):
+    quarto = Quarto.objects.get(pk=pk)
+    form = QuartoForm(request.POST or None, instance=quarto)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(resolve_url('hotel:quartos'))
 
 
-# @login_required
-# def quartos_delete(request):
-#     pass
+@login_required
+def quartos_delete(request):
+    pass
 
 
 # @login_required
