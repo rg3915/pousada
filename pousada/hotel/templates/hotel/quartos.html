@@ -45,23 +45,21 @@
       <tr>
         <th>{{ quarto.id }}</th>
         <td>
-          <a data-toggle="modal" href="#myQuarto{{quarto.pk}}">{{ quarto.titulo }}</a>
+          <a data-toggle="modal" href="#myQuarto_{{quarto.pk}}">{{ quarto.titulo }}</a>
           <!-- Modal -->
-          <div class="modal fade" id="myPessoa_{{quarto.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
+          <div class="modal fade" id="myQuarto_{{quarto.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelQuarto">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabelPessoa">Cliente</h4>
+                  <h4 class="modal-title" id="myModalLabelQuarto">Quarto</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                   <ul class="list-group">
-                    <li class="list-group-item">Nome: {{ quarto.nome }}</li>
-                    <li class="list-group-item">CPF: {{ quarto.cpf }}</li>
-                    <li class="list-group-item">Endereço: {{ quarto.endereco|default:"---" }}</li>
-                    <li class="list-group-item">Cidade: {{ quarto.cidade|default:"---" }}</li>
-                    <li class="list-group-item">Estado: {{ quarto.estado|default:"---" }}</li>
-                    <li class="list-group-item">Telefone: {{ quarto.telefone }}</li>
+                    <li class="list-group-item">Número: {{ quarto.id }}</li>
+                    <li class="list-group-item">Título: {{ quarto.titulo }}</li>
+                    <li class="list-group-item">Padrão: {{ quarto.padrao }}</li>
+                    <li class="list-group-item">Diária: R$ {{ quarto.valor_diaria }}</li>
                   </ul>
                 </div>
                 <div class="modal-footer">
@@ -155,11 +153,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myPessoaAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoaAdd">
+<div class="modal fade" id="myPessoaAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelQuartoAdd">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabelPessoaAdd">Cadastrar</h4>
+        <h4 class="modal-title" id="myModalLabelQuartoAdd">Cadastrar</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <form action="{% url 'hotel:pessoas_add' %}" method="POST">
