@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block style %}
   <link rel="stylesheet" href="{% static 'css/container.css' %}">
+
+  <style>
+    span.required:after {
+      content: "*";
+      color: red;
+    }
+  </style>
+
 {% endblock style %}
 
 {% block content %}
@@ -17,6 +26,11 @@
       </form>
     </div>
   </div>
+
+  <div class="pull-right">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myPessoaAdd">Cadastrar</button>
+  </div>
+
   <h1>Lista de Clientes</h1>
   <table class="table">
     <thead>
@@ -99,4 +113,41 @@
     </tbody>
   </table>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myPessoaAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoaAdd">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabelPessoaAdd">Cadastrar</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form action="{% url 'hotel:pessoas_add' %}" method="POST">
+        <div class="modal-body">
+          {% csrf_token %}
+          {% for field in form.visible_fields %}
+            <div class="form-group{% if field.errors %} has-error {% endif %}">
+              <label for="{{ field.id_for_label }}">
+                {% if field.field.required %}
+                  <span class="required">{{ field.label }} </span>
+                {% else %}
+                  {{ field.label }}
+                {% endif %}
+              </label>
+              {% render_field field class="form-control" %}
+              {% for error in field.errors %}
+                <span class="text-muted">{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
