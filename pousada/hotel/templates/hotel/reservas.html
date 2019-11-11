@@ -1,46 +1,66 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/container.css' %}">
+{% endblock style %}
+
 {% block content %}
+
+<div class="my-container" style="padding-top: 10px;">
+  <!-- Campo de Busca -->
+  <div style="margin: 10px 0">
+    <div class="col-sm-12">
+      <form action="" method="GET" class="form-inline">
+        <input id="id_search" name="search" class="form-control" type="text" placeholder="Busca" />
+        <button type="submit" class="btn btn-primary ml-1">Buscar</button>
+        <a href="." class="ml-2">Limpar</a>
+      </form>
+    </div>
+  </div>
   <h1>Lista de Reservas</h1>
   <table class="table">
-    <thead class="thead-dark">
+    <thead>
       <tr>
-        <th scope="col">Quarto</th>
-        <th scope="col">Padrão</th>
-        <th scope="col">Hóspede</th>
-        <th scope="col">Entrada</th>
-        <th scope="col">Previsão de Saída</th>
-        <th scope="col">Saída</th>
-        <th scope="col">Valor Total</th>
-        <th scope="col">Liberado</th>
+        <th>Quarto</th>
+        <th>Padrão</th>
+        <th>Hóspede</th>
+        <th>Entrada</th>
+        <th>Previsão de Saída</th>
+        <th>Saída</th>
+        <th>Valor Total</th>
+        <th>Liberado</th>
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
-        <tr>
-          <td>{{ object.quarto }}</td>
-          <td>{{ object.quarto.padrao }}</td>
-          <td>{{ object.nome_cliente }}</td>
-          <td>{{ object.checkin|date:"d/m/y" }}</td>
-          <td>{{ object.pre_checkout|date:"d/m/y" }}</td>
-          <td>
-            {% if object.checkout %}
-              {{ object.checkout|date:"d/m/y" }}
-            {% else %}
-            <a href="{% url 'hotel:checkout' object.pk %}" class="btn btn-warning">Fazer checkout</a>
-            {% endif %}
-          </td>
-          <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
-          <td>
-            {% if object.checkout %}
-              <i class="fa fa-check" style="color: green"></i>
-            {% else %}
-              <i class="fa fa-close" style="color: red"></i>
-            {% endif %}
-          </td>
-        </tr>
+      <tr>
+        <td>{{ object.quarto }}</td>
+        <td>{{ object.quarto.padrao }}</td>
+        <td>{{ object.nome_cliente }}</td>
+        <td>{{ object.checkin|date:"d/m/y" }}</td>
+        <td>{{ object.pre_checkout|date:"d/m/y" }}</td>
+        <td>
+          {% if object.checkout %}
+          {{ object.checkout|date:"d/m/y" }}
+          {% else %}
+          <a href="{% url 'hotel:checkout' object.pk %}" class="btn btn-warning">Fazer checkout</a>
+          {% endif %}
+        </td>
+        <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
+        <td>
+          {% if object.checkout %}
+          <i class="fa fa-check" style="color: green"></i>
+          {% else %}
+          <i class="fa fa-close" style="color: red"></i>
+          {% endif %}
+        </td>
+      </tr>
       </a>
-    </li>
-  {% endfor %}
-</tbody>
-</table>
+      </li>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 {% endblock %}

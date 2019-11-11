@@ -218,6 +218,16 @@ def quartos_delete(request, pk):
 def reserva(request):
     object_list = Reserva.objects.all()
     template_name = 'hotel/reservas.html'
+
+    # Search
+    search = request.GET.get('search')
+    if search:
+        object_list = object_list.filter(
+            Q(quarto__titulo__icontains=search,) |
+            Q(quarto__padrao__nome__icontains=search,) |
+            Q(nome_cliente__nome__icontains=search,)
+        )
+
     context = {'object_list': object_list}
     return render(request, template_name, context)
 
@@ -226,13 +236,3 @@ class ReservaAdd(CreateView):
     model = Reserva
     form_class = ReservaForm
     template_name = 'hotel/reservas_add.html'
-
-
-# @login_required
-# def reserva_edit(request):
-#     pass
-
-
-# @login_required
-# def reserva_delete(request):
-#     pass
