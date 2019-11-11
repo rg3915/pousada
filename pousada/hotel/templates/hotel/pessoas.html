@@ -1,88 +1,82 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/container.css' %}">
+{% endblock style %}
 
 {% block content %}
-<!-- <h1>{ message }}</h1> -->
 
+<div class="my-container" style="padding-top: 10px;">
 
-<!-- Campo de Busca -->
-<div class="row" style="margin: 10px 0">
-  <div class="col-sm-6">
-    <form action="" method="GET">
-      <input id="id_search" name="search" class="form-control" type="text" placeholder="Busca" />
-      <button type="submit" class="btn btn-primary">Buscar</button>
-      <a href=".">Limpar</a>
-    </form>
+  <!-- Campo de Busca -->
+  <div style="margin: 10px 0">
+    <div class="col-sm-12">
+      <form action="" method="GET" class="form-inline">
+        <input id="id_search" name="search" class="form-control" type="text" placeholder="Busca" />
+        <button type="submit" class="btn btn-primary ml-1">Buscar</button>
+        <a href="." class="ml-2">Limpar</a>
+      </form>
+    </div>
   </div>
+
+  <h1>Lista de Clientes</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">CPF</th>
+        <th scope="col">Cidade</th>
+        <th scope="col">Endereco</th>
+        <th scope="col">Telefone</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pessoa in pessoas %}
+      <tr>
+        <th scope="row">{{pessoa.id}}</th>
+        <td>
+          <a href="{% url 'hotel:pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
+        </td>
+        <td>{{pessoa.cpf}}</td>
+        <td>{{pessoa.cidade}}</td>
+        <td>{{pessoa.endereco}}</td>
+        <td>{{pessoa.telefone}}</td>
+        <td>
+          <a href="{% url 'hotel:pessoas_edit' pessoa.pk %}">
+            <i class="fa fa-edit"></i>
+            <a data-toggle="modal" data-target="#myModal_{{pessoa.pk}}">
+              <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal_{{pessoa.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Deletar</h4>
+                  </div>
+                  <div class="modal-body">
+                    Deseja deletar <b>{{ pessoa.nome }}</b>?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a href="{% url 'hotel:pessoas_delete' pessoa.pk %}" type="button" class="btn btn-danger">Deletar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </td>
+      </tr>
+      </a>
+      </li>
+      {% endfor %}
+    </tbody>
+  </table>
+
 </div>
-
-<form action="{% url 'hotel:pessoas_add' %}" method="POST">
-    {% csrf_token %}
-
-    {{ form }}
-
-    <!-- <button type="submit" class="btn btn-primary"> { if update %} Atualizar { else %} Cadastrar { endif %}  </button> -->
-
-    <button type="submit" class="btn btn-primary">Salvar</button>
-
-</form>
-<!-- { if update %} <a href="{ url 'core_pessoas' id=0 cmd=0 %}">Adicionar novo</a> { endif %} -->
-
-<h1>Lista de Clientes</h1>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Cidade</th>
-                    <th scope="col">Endereco</th>
-                    <th scope="col">Telefone</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pessoa in pessoas %}
-                        <tr>
-                        <th scope="row">{{pessoa.id}}</th>
-                        <td>
-                          <a href="{% url 'hotel:pessoas_detail' pessoa.pk %}">{{pessoa.nome}}</a>
-                        </td>
-                        <td>{{pessoa.cpf}}</td>
-                        <td>{{pessoa.cidade}}</td>
-                        <td>{{pessoa.endereco}}</td>
-                        <td>{{pessoa.telefone}}</td>
-                        <td>
-                          <a href="{% url 'hotel:pessoas_edit' pessoa.pk %}">
-                            <i class="fa fa-edit"></i>
-                          <a data-toggle="modal" data-target="#myModal_{{pessoa.pk}}">
-                            <i class="fa fa-close" style="padding-left: 10px; color: red"></i>
-                          </a>
-
-                          <!-- Modal -->
-                          <div class="modal fade" id="myModal_{{pessoa.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                  <h4 class="modal-title" id="myModalLabel">Deletar</h4>
-                                </div>
-                                <div class="modal-body">
-                                  Deseja deletar <b>{{ pessoa.nome }}</b>?
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                  <a href="{% url 'hotel:pessoas_delete' pessoa.pk %}" type="button" class="btn btn-danger">Deletar</a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                        </td>
-                        </tr>
-                    </a>
-                </li>
-                {% endfor %}
-            </tbody>
-        </table>
 
 {% endblock %}
