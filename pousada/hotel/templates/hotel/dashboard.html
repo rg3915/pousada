@@ -55,13 +55,7 @@
             <td>{{ object.nome_cliente }}</td>
             <td>{{ object.checkin|date:"d/m/y" }}</td>
             <td>{{ object.pre_checkout|date:"d/m/y" }}</td>
-            <td>
-              {% if object.checkout %}
-              {{ object.checkout|date:"d/m/y" }}
-              {% else %}
-              <a href="{% url 'hotel:checkout' object.pk %}" class="btn btn-warning">Fazer checkout</a>
-              {% endif %}
-            </td>
+            <td>{{ object.checkout|default:"---" }}</td>
             <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
             <td>
               {% if object.checkout %}
