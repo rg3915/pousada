@@ -25,6 +25,11 @@ def pessoas(request):
     pessoas = Pessoa.objects.all()
     form = PessoaForm()
 
+    pk = request.GET.get('pk')
+    if pk:
+        pessoa = Pessoa.objects.get(pk=pk)
+        form = PessoaForm(request.POST or None, instance=pessoa)
+
     # Search
     search = request.GET.get('search')
     if search:
@@ -53,11 +58,6 @@ def pessoas_edit(request, pk):
     if form.is_valid():
         form.save()
         return HttpResponseRedirect(resolve_url('hotel:pessoas'))
-    data = {
-        'pessoa': pessoa,
-        'form': form,
-    }
-    return render(request, 'hotel/pessoas_editar.html', data)
 
 
 @login_required
