@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+  <style>
+    span.required:after {
+      content: "*";
+      color: red;
+    }
+  </style>
+{% endblock style %}
+
+{% block content %}
+<div class="container">
+  <h3>Obrigado</h3>
+  <p>Em breve entraremos em contato.</p>
+  <a class="btn btn-primary" href="{% url 'core:home' %}">Home</a>
+</div>
+{% endblock content %}

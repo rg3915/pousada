@@ -1,55 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+  <style>
+    span.required:after {
+      content: "*";
+      color: red;
+    }
+  </style>
+{% endblock style %}
 
 {% block content %}
-
-<div class="container text-center">
+<div class="container">
+  <h3>Escrever mensagem</h3>
   <div class="row row-space">
     <p> {{ mensagem }} </p>
-    <div class="col-md-6">
+    <div>
       <form action="{% url 'core:contato_add' %}" method="POST">
         {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group col-md-8">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4"
-            placeholder="Email" name="email">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-8">
-            <label for="inputNome">Nome</label>
-            <input type="text" class="form-control" id="inputNome"
-            placeholder="Primeiro Nome" name="nome">
-          </div>
-          <div class="form-group col-md-8">
-            <label for="inputSobreNome">SobreNome</label>
-            <input type="text" class="form-control" id="inputNome"
-            placeholder="Digite seu SobreNome" name="sobrenome">
-          </div>
-        </div>
-        <div class="form-group col-md-8">
-          <label for="inputEndereco">Endereco</label>
-          <input type="text" class="form-control" id="inputAddress2"
-          placeholder="Digite o Endereco" name="endereco">
-        </div>
-        <div class="form-group">
-          <textarea cols="65" rows="7" class="form-control" name="mensagem"> </textarea>
-        </div>
-        <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck" name="receber">
-            <label class="form-check-label" for="gridCheck">
-              Check me out
+        {% for field in form.visible_fields %}
+          <div class="form-group{% if field.errors %} has-error {% endif %}">
+            <label for="{{ field.id_for_label }}">
+              {% if field.field.required %}
+                <span class="required">{{ field.label }} </span>
+              {% else %}
+                {{ field.label }}
+              {% endif %}
             </label>
+            {% render_field field class="form-control" %}
+            {% for error in field.errors %}
+              <span class="text-muted">{{ error }}</span>
+            {% endfor %}
           </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary ml-1">Buscar</button>
       </form>
-    </div>
-    <div class="col-6">
     </div>
   </div>
 </div>
-
 {% endblock content %}

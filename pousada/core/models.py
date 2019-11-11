@@ -6,7 +6,7 @@ class Contato(models.Model):
     sobrenome = models.CharField(max_length=100)
     endereco = models.CharField('endereço', max_length=100)
     mensagem = models.TextField()
-    receber = models.BooleanField()
+    receber = models.BooleanField(default=False)
     email = models.EmailField()
 
     def __str__(self):

@@ -10,4 +10,9 @@ urlpatterns = [
     path('servicos/', v.servicos, name='servicos'),
     path('contato/', v.contato, name='contato'),
     path('contato/add/', v.contato_add, name='contato_add'),
+    path(
+        'contato/confirmacao/',
+        v.contato_confirmacao,
+        name='contato_confirmacao'
+    ),
 ]

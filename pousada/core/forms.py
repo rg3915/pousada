@@ -6,4 +6,4 @@ class ContatoForm(ModelForm):
 
     class Meta:
         model = Contato
-        fields = '__all__'
+        exclude = ('receber',)
