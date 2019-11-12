@@ -34,33 +34,67 @@
     </thead>
     <tbody>
       {% for object in object_list %}
-      <tr>
-        <td>{{ object.quarto }}</td>
-        <td>{{ object.quarto.padrao }}</td>
-        <td>{{ object.nome_cliente }}</td>
-        <td>{{ object.checkin|date:"d/m/y" }}</td>
-        <td>{{ object.pre_checkout|date:"d/m/y" }}</td>
-        <td>
-          {% if object.checkout %}
-          {{ object.checkout|date:"d/m/y" }}
-          {% else %}
-          <a href="{% url 'hotel:checkout' object.pk %}" class="btn btn-warning">Fazer checkout</a>
-          {% endif %}
-        </td>
-        <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
-        <td>
-          {% if object.checkout %}
-          <i class="fa fa-check" style="color: green"></i>
-          {% else %}
-          <i class="fa fa-close" style="color: red"></i>
-          {% endif %}
-        </td>
-      </tr>
-      </a>
-      </li>
+        <tr>
+          <td>{{ object.quarto }}</td>
+          <td>{{ object.quarto.padrao }}</td>
+          <td>{{ object.nome_cliente }}</td>
+          <td>{{ object.checkin|date:"d/m/y" }}</td>
+          <td>{{ object.pre_checkout|date:"d/m/y" }}</td>
+          <td>
+            {% if object.checkout %}
+              {{ object.checkout|date:"d/m/y" }}
+            {% else %}
+              <a data-toggle="modal" 
+               href="#myModalCheckout" 
+               data-url="{% url 'hotel:pre_reserva_json' object.pk %}"
+               data-urlcheckout="{% url 'hotel:checkout' object.pk %}"
+               class="btn btn-warning fazerCheckout">Fazer checkout</a>
+            {% endif %}
+          </td>
+          <td>R$ <span class="pull-right">{{ object.valor_diaria }}</span></td>
+          <td>
+            {% if object.checkout %}
+              <i class="fa fa-check" style="color: green"></i>
+            {% else %}
+              <i class="fa fa-close" style="color: red"></i>
+            {% endif %}
+          </td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 
+<!-- Modal Checkout -->
+<div class="modal fade" id="myModalCheckout" tabindex="-1" role="dialog" aria-labelledby="myModalLabelCheckout">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabelCheckout">Fazer Checkout</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form action="." method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <h5>Saldo devedor da diária
+            <span class="lead" style="font-size: 150%">R$ <span id="saldo-devedor"></span></span>
+          </h5>
+          <input id="id_checkout_pk" name="pk" class="form-control" type="hidden" />
+          <input id="id_checkout_valor_diaria" name="valor_diaria" class="form-control" type="hidden" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button id="salvarCheckout" type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+
+{% block js %}
+
+  <script src="{% static 'js/reserva.js' %}"></script>
+
+{% endblock js %}
