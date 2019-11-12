@@ -58,7 +58,6 @@
           {% else %}
 
           <a class="btn btn-primary" data-toggle="modal" href="#myModalPessoa_{{object.id}}">Reservar</a>
-          <a id="a_{{object.id}}" class="btn btn-primary" data-toggle="modal" href="#myModalReserva_{{object.id}}" style="display:none">Reservar 2</a>
 
           <!-- Modal Pessoa -->
           <div class="modal fade" id="myModalPessoa_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
@@ -169,10 +168,11 @@
       type: 'POST',
       data: postData,
       success: function(response) {
+        $('#myModalPessoa_'+id).on('hidden.bs.modal', function () {
+          $('#myModalReserva_'+id).modal('show')
+        });
         $('#myModalPessoa_'+id).modal('hide')
         clearForms()
-        // $('#myModalReserva_'+id).modal('show')
-        $('#a_'+id).click() /* Abre o segundo modal */
         $('#id_pessoa_pk_'+id).val(response.pessoa)
 
         // Removendo autocomplete de data
