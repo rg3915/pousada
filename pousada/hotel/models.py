@@ -97,9 +97,12 @@ class Reserva(models.Model):
         'valor diária',
         max_digits=6,
         decimal_places=2,
-        help_text='Valor do quarto reservado.'
     )
-    checkin = models.DateTimeField('Entrada', auto_now=False)
+    checkin = models.DateTimeField(
+        'Entrada',
+        auto_now=False,
+        help_text='Preencha primeiro a data de entrada.'
+    )
     pre_checkout = models.DateTimeField('Previsão de Saída', auto_now=False)
     checkout = models.DateTimeField(
         'Saída',
