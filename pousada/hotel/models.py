@@ -131,6 +131,19 @@ class Reserva(models.Model):
     def get_absolute_url(self):
         return resolve_url('hotel:reserva')  # , pk=self.pk
 
+    def to_dict_json(self):
+        return {
+            'pk': self.pk,
+            'nome_cliente': self.nome_cliente.nome,
+            'quarto': self.quarto.titulo,
+            'valor_diaria': self.valor_diaria,
+            'checkin': self.checkin,
+            'pre_checkout': self.pre_checkout,
+            'checkout': self.checkout,
+            'forma_pagto': self.forma_pagto,
+            'pago': self.pago,
+        }
+
     def horas_total(self):
         return math.ceil((self.checkout - self.checkin).total_seconds() / 3600)
 

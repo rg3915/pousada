@@ -54,95 +54,99 @@
         </td>
         <td class="text-center">
           {% if object.reservado %}
-          <a href="{% url 'hotel:checkout' object.reserva.pk %}" class="btn btn-warning">Fazer checkout</a>
+            <a data-toggle="modal" 
+               href="#myModalCheckout" 
+               data-url="{% url 'hotel:pre_reserva_json' object.reserva.pk %}"
+               data-urlcheckout="{% url 'hotel:checkout' object.reserva.pk %}"
+               class="btn btn-warning fazerCheckout">Fazer checkout</a>
           {% else %}
 
-          <a class="btn btn-primary" data-toggle="modal" href="#myModalPessoa_{{object.id}}">Reservar</a>
+            <a class="btn btn-primary" data-toggle="modal" href="#myModalPessoa_{{object.id}}">Reservar</a>
 
-          <!-- Modal Pessoa -->
-          <div class="modal fade" id="myModalPessoa_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabelPessoa">Cadastrar Cliente</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <form action="{% url 'hotel:pre_reserva_pessoas_add' %}" method="POST">
-                  <div class="modal-body text-left">
-                    {% csrf_token %}
-                    <input id="id_quarto_pk" name="quarto_pk" class="form-control" type="hidden" value="{{ object.pk }}" />
-                    {% for field in form.visible_fields %}
-                      <div class="form-group{% if field.errors %} has-error {% endif %}">
-                        <label for="{{ field.id_for_label }}">
-                          {% if field.field.required %}
-                          <span class="required">{{ field.label }} </span>
-                          {% else %}
-                          {{ field.label }}
-                          {% endif %}
-                        </label>
-                        {% render_field field class="form-control" %}
-                        {% for error in field.errors %}
-                        <span class="text-muted">{{ error }}</span>
-                        {% endfor %}
-                      </div>
-                    {% endfor %}
+            <!-- Modal Pessoa -->
+            <div class="modal fade" id="myModalPessoa_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPessoa">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabelPessoa">Cadastrar Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary salvar" data-id="{{ object.id }}">Salvar</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modal Reserva -->
-          <div class="modal fade" id="myModalReserva_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelReservar">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabelReservar">Fazer Reserva</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <form id="formReserva{{object.id}}" action="{% url 'hotel:pre_reserva_reserva_add' %}" method="POST">
-                  <div class="modal-body text-left">
-                    {% csrf_token %}
-                    <input id="id_quarto_pk_{{object.id}}" name="quarto_pk" class="form-control" type="hidden" value="{{ object.pk }}" />
-                    <input id="id_pessoa_pk_{{object.id}}" name="pessoa_pk" class="form-control" type="hidden" value="" />
-                    <input id="id_valor_diaria_{{object.id}}" name="valor_diaria_pk" class="form-control" type="hidden" value="{{ object.valor_diaria }}" />
-                    {% for field in form_reserva.visible_fields %}
-                      <div class="form-group{% if field.errors %} has-error {% endif %}">
-                        <label for="{{ field.id_for_label }}">
-                          {% if field.field.required %}
+                  <form action="{% url 'hotel:pre_reserva_pessoas_add' %}" method="POST">
+                    <div class="modal-body text-left">
+                      {% csrf_token %}
+                      <input id="id_quarto_pk" name="quarto_pk" class="form-control" type="hidden" value="{{ object.pk }}" />
+                      {% for field in form.visible_fields %}
+                        <div class="form-group{% if field.errors %} has-error {% endif %}">
+                          <label for="{{ field.id_for_label }}">
+                            {% if field.field.required %}
                             <span class="required">{{ field.label }} </span>
-                          {% else %}
+                            {% else %}
                             {{ field.label }}
-                          {% endif %}
-                        </label>
-
-                        {% render_field field class="form-control" %}
-
-                        {% if field.help_text %}
-                          <small class="form-text text-muted">
-                           {{ field.help_text }}
-                          </small>
-                        {% endif %}
-
-                        {% for error in field.errors %}
+                            {% endif %}
+                          </label>
+                          {% render_field field class="form-control" %}
+                          {% for error in field.errors %}
                           <span class="text-muted">{{ error }}</span>
-                        {% endfor %}
-
-                      </div>
-                    {% endfor %}
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary salvarReserva" data-id="{{ object.id }}">Salvar</button>
-                  </div>
-                </form>
+                          {% endfor %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                      <button type="button" class="btn btn-primary salvar" data-id="{{ object.id }}">Salvar</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
+
+            <!-- Modal Reserva -->
+            <div class="modal fade" id="myModalReserva_{{object.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabelReservar">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabelReservar">Fazer Reserva</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <form id="formReserva{{object.id}}" action="{% url 'hotel:pre_reserva_reserva_add' %}" method="POST">
+                    <div class="modal-body text-left">
+                      {% csrf_token %}
+                      <input id="id_quarto_pk_{{object.id}}" name="quarto_pk" class="form-control" type="hidden" value="{{ object.pk }}" />
+                      <input id="id_pessoa_pk_{{object.id}}" name="pessoa_pk" class="form-control" type="hidden" value="" />
+                      <input id="id_valor_diaria_{{object.id}}" name="valor_diaria_pk" class="form-control" type="hidden" value="{{ object.valor_diaria }}" />
+                      {% for field in form_reserva.visible_fields %}
+                        <div class="form-group{% if field.errors %} has-error {% endif %}">
+                          <label for="{{ field.id_for_label }}">
+                            {% if field.field.required %}
+                              <span class="required">{{ field.label }} </span>
+                            {% else %}
+                              {{ field.label }}
+                            {% endif %}
+                          </label>
+
+                          {% render_field field class="form-control" %}
+
+                          {% if field.help_text %}
+                            <small class="form-text text-muted">
+                             {{ field.help_text }}
+                            </small>
+                          {% endif %}
+
+                          {% for error in field.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                          {% endfor %}
+
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                      <button type="button" class="btn btn-primary salvarReserva" data-id="{{ object.id }}">Salvar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
 
           {% endif %}
         </td>
@@ -153,6 +157,38 @@
     </tbody>
   </table>
 </div>
+
+<!-- Modal Checkout -->
+<div class="modal fade" id="myModalCheckout" tabindex="-1" role="dialog" aria-labelledby="myModalLabelCheckout">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabelCheckout">Fazer Checkout</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form action="." method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <h5>Saldo devedor da diária
+            <span class="lead" style="font-size: 150%">R$ <span id="saldo-devedor"></span></span>
+          </h5>
+          <input id="id_checkout_pk" name="pk" class="form-control" type="hidden" />
+          <!-- <input id="id_checkout_nome_cliente" name="nome_cliente" class="form-control" type="text" /> -->
+          <!-- <input id="id_checkout_quarto" name="quarto" class="form-control" type="text" /> -->
+          <input id="id_checkout_valor_diaria" name="valor_diaria" class="form-control" type="hidden" />
+          <!-- <input id="id_checkout_checkin" name="checkin" class="form-control" type="text" /> -->
+          <!-- <input id="id_checkout_pre_checkout" name="pre_checkout" class="form-control" type="text" /> -->
+          <!-- <input id="id_checkout_checkout" name="checkout" class="form-control" type="text" /> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button id="salvarCheckout" type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block js %}

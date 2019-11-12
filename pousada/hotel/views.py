@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, resolve_url
 from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from .models import Pessoa, Quarto, Reserva
 from .forms import PessoaForm, QuartoForm, ReservaForm
@@ -92,6 +93,12 @@ def pre_reserva(request):
     return render(request, template_name, context)
 
 
+def pre_reserva_json(request, pk):
+    reserva = Reserva.objects.filter(pk=pk)
+    data = [item.to_dict_json() for item in reserva]
+    return JsonResponse({'data': data})
+
+
 def pre_reserva_pessoa_add(request):
     form = PessoaForm(request.POST or None)
     if request.method == 'POST' and request.is_ajax():
@@ -133,38 +140,46 @@ def pre_reserva_reserva_add(request):
             return JsonResponse(response)
 
 
+@csrf_exempt
 def checkout(request, pk):
-    reserva = Reserva.objects.get(pk=pk)
-    reserva.checkout = timezone.now()
-    reserva.save()
-
-    kw = {'pk': pk}
-    url = 'hotel:checkout_final'
-    return HttpResponseRedirect(reverse(url, kwargs=kw))
-
-
-def checkout_final(request, pk):
-    # O pk é o pk da reserva.
-    reserva = Reserva.objects.get(pk=pk)
-    dias_hospedado = (reserva.checkout - reserva.checkin).days
-    saldo_devedor = dias_hospedado * reserva.quarto.valor_diaria
-
-    if request.method == 'POST':
-        # valor_diaria seria o valor total (final) da reserva,
-        # após checkout.
-        reserva.valor_diaria = saldo_devedor
-        pago = request.POST.get('pago')
-        if pago == 'on':
-            reserva.pago = True
-        else:
-            reserva.pago = False
+    if request.method == 'POST' and request.is_ajax():
+        reserva = Reserva.objects.get(pk=pk)
+        reserva.checkout = timezone.now()
         reserva.save()
-        return HttpResponseRedirect(resolve_url('hotel:reserva'))
-    else:
-        context = {'saldo_devedor': saldo_devedor}
+        return JsonResponse({'data': 'OK'})
 
-    template_name = 'hotel/checkout_final.html'
-    return render(request, template_name, context)
+
+# def checkout(request, pk):
+#     reserva = Reserva.objects.get(pk=pk)
+#     reserva.checkout = timezone.now()
+#     reserva.save()
+#     kw = {'pk': pk}
+#     url = 'hotel:checkout_final'
+#     return HttpResponseRedirect(reverse(url, kwargs=kw))
+
+
+# def checkout_final(request, pk):
+#     # O pk é o pk da reserva.
+#     reserva = Reserva.objects.get(pk=pk)
+#     dias_hospedado = (reserva.checkout - reserva.checkin).days
+#     saldo_devedor = dias_hospedado * reserva.quarto.valor_diaria
+
+#     if request.method == 'POST':
+#         # valor_diaria seria o valor total (final) da reserva,
+#         # após checkout.
+#         reserva.valor_diaria = saldo_devedor
+#         pago = request.POST.get('pago')
+#         if pago == 'on':
+#             reserva.pago = True
+#         else:
+#             reserva.pago = False
+#         reserva.save()
+#         return HttpResponseRedirect(resolve_url('hotel:reserva'))
+#     else:
+#         context = {'saldo_devedor': saldo_devedor}
+
+#     template_name = 'hotel/checkout_final.html'
+#     return render(request, template_name, context)
 
 
 @login_required

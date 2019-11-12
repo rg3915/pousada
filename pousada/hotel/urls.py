@@ -35,7 +35,8 @@ pre_reserva_patterns = [
         name='pre_reserva_reserva_add'
     ),
     path('checkout/<int:pk>/', v.checkout, name='checkout'),
-    path('checkout/<int:pk>/final/', v.checkout_final, name='checkout_final'),
+    path('<int:pk>/json/', v.pre_reserva_json, name='pre_reserva_json'),
+    # path('checkout/<int:pk>/final/', v.checkout_final, name='checkout_final'),
 ]
 
 reserva_patterns = [

@@ -79,3 +79,44 @@ $('.salvarReserva').on('click', function () {
   })
 });
 
+let urlcheckout;
+
+$('.fazerCheckout').on('click', function(event) {
+  event.preventDefault();
+  let url = $(this).data('url');
+  urlcheckout = $(this).data('urlcheckout');
+  $.ajax({
+    url: url,
+    success: function(response) {
+      item = response.data[0]
+      $('#id_checkout_pk').val(item.pk);
+      // $('#id_checkout_nome_cliente').val(item.nome_cliente);
+      // $('#id_checkout_quarto').val(item.quarto);
+      $('#saldo-devedor').html(item.valor_diaria);
+      $('#id_checkout_valor_diaria').val(item.valor_diaria);
+      // $('#id_checkout_checkin').val(item.checkin);
+      // $('#id_checkout_pre_checkout').val(item.pre_checkout);
+      // $('#id_checkout_checkout').val(item.checkout);
+    },
+    error: function(xhr) {
+      // body... xhr.statusText + xhr.responseText
+    }
+  })
+});
+
+$('#salvarCheckout').on('click', function() {
+  $.ajax({
+    url: urlcheckout,
+    type: 'POST',
+    data: {
+      id: $('#id_checkout_pk').val(),
+      valor_diaria: $('#id_checkout_valor_diaria').val()
+    },
+    success: function(response) {
+      location.reload();
+    },
+    error: function(xhr) {
+      // body... xhr.statusText + xhr.responseText
+    }
+  })
+});
