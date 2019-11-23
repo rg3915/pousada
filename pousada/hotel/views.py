@@ -24,6 +24,7 @@ def dashboard(request):
 
 @login_required
 def pessoas(request):
+    template_name = 'hotel/pessoas.html'
     pessoas = Pessoa.objects.all()
     form = PessoaForm()
 
@@ -43,7 +44,7 @@ def pessoas(request):
         'pessoas': pessoas,
         'form': form,
     }
-    return render(request, 'hotel/pessoas.html', data)
+    return render(request, template_name, data)
 
 
 @login_required
@@ -147,39 +148,6 @@ def checkout(request, pk):
         reserva.checkout = timezone.now()
         reserva.save()
         return JsonResponse({'data': 'OK'})
-
-
-# def checkout(request, pk):
-#     reserva = Reserva.objects.get(pk=pk)
-#     reserva.checkout = timezone.now()
-#     reserva.save()
-#     kw = {'pk': pk}
-#     url = 'hotel:checkout_final'
-#     return HttpResponseRedirect(reverse(url, kwargs=kw))
-
-
-# def checkout_final(request, pk):
-#     # O pk é o pk da reserva.
-#     reserva = Reserva.objects.get(pk=pk)
-#     dias_hospedado = (reserva.checkout - reserva.checkin).days
-#     saldo_devedor = dias_hospedado * reserva.quarto.valor_diaria
-
-#     if request.method == 'POST':
-#         # valor_diaria seria o valor total (final) da reserva,
-#         # após checkout.
-#         reserva.valor_diaria = saldo_devedor
-#         pago = request.POST.get('pago')
-#         if pago == 'on':
-#             reserva.pago = True
-#         else:
-#             reserva.pago = False
-#         reserva.save()
-#         return HttpResponseRedirect(resolve_url('hotel:reserva'))
-#     else:
-#         context = {'saldo_devedor': saldo_devedor}
-
-#     template_name = 'hotel/checkout_final.html'
-#     return render(request, template_name, context)
 
 
 @login_required
